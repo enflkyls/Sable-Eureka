@@ -1,0 +1,9 @@
+{
+  "parent": "sable_ships:block/ship_helm_base",
+  "textures": {
+    "log": "minecraft:block/oak_log",
+    "log_top": "minecraft:block/oak_log_top",
+    "planks": "minecraft:block/oak_planks",
+    "particle": "minecraft:block/oak_planks"
+  }
+}

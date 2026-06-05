@@ -1,0 +1,89 @@
+{
+	"format_version": "1.9.0",
+	"render_type": "minecraft:cutout",
+	"credit": "Made with Blockbench",
+	"parent": "seat",
+	"textures": {
+		"log": "minecraft:block/oak_log",
+		"log_top": "minecraft:block/oak_log_top",
+		"planks": "minecraft:block/oak_planks",
+		"particle": "minecraft:block/oak_planks"
+	},
+	"elements": [
+		{
+			"name": "leggs",
+			"from": [10, 0, 10],
+			"to": [12, 7, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 0, 10]},
+			"color": 5,
+			"faces": {
+				"north": {"uv": [2, 1, 4, 11], "texture": "#log"},
+				"east": {"uv": [0, 1, 2, 11], "texture": "#log"},
+				"south": {"uv": [6, 1, 8, 11], "texture": "#log"},
+				"west": {"uv": [4, 1, 6, 11], "texture": "#log"},
+				"up": {"uv": [4, 4, 2, 2], "texture": "#log"},
+				"down": {"uv": [6, 2, 4, 4], "texture": "#log"}
+			}
+		},
+		{
+			"name": "leggs",
+			"from": [10, 0, 4],
+			"to": [12, 7, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 0, 4]},
+			"color": 5,
+			"faces": {
+				"north": {"uv": [2, 1, 4, 11], "texture": "#log"},
+				"east": {"uv": [0, 1, 2, 11], "texture": "#log"},
+				"south": {"uv": [6, 1, 8, 11], "texture": "#log"},
+				"west": {"uv": [4, 1, 6, 11], "texture": "#log"},
+				"up": {"uv": [4, 4, 2, 2], "texture": "#log"},
+				"down": {"uv": [6, 2, 4, 4], "texture": "#log"}
+			}
+		},
+		{
+			"name": "leggs",
+			"from": [4, 0, 4],
+			"to": [6, 7, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 0, 4]},
+			"color": 5,
+			"faces": {
+				"north": {"uv": [2, 1, 4, 11], "texture": "#log"},
+				"east": {"uv": [0, 1, 2, 11], "texture": "#log"},
+				"south": {"uv": [6, 1, 8, 11], "texture": "#log"},
+				"west": {"uv": [4, 1, 6, 11], "texture": "#log"},
+				"up": {"uv": [4, 4, 2, 2], "texture": "#log"},
+				"down": {"uv": [6, 2, 4, 4], "texture": "#log"}
+			}
+		},
+		{
+			"name": "leggs",
+			"from": [4, 0, 10],
+			"to": [6, 7, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 0, 10]},
+			"color": 5,
+			"faces": {
+				"north": {"uv": [2, 1, 4, 11], "texture": "#log"},
+				"east": {"uv": [0, 1, 2, 11], "texture": "#log"},
+				"south": {"uv": [6, 1, 8, 11], "texture": "#log"},
+				"west": {"uv": [4, 1, 6, 11], "texture": "#log"},
+				"up": {"uv": [4, 4, 2, 2], "texture": "#log"},
+				"down": {"uv": [6, 2, 4, 4], "texture": "#log"}
+			}
+		},
+		{
+			"name": "top",
+			"from": [2, 7, 2],
+			"to": [14, 9, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 6]},
+			"color": 2,
+			"faces": {
+				"north": {"uv": [0, 2, 16, 4], "texture": "#planks"},
+				"east": {"uv": [0, 2, 16, 4], "texture": "#planks"},
+				"south": {"uv": [0, 2, 16, 4], "texture": "#planks"},
+				"west": {"uv": [0, 2, 16, 4], "texture": "#planks"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#planks"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#planks"}
+			}
+		}
+	]
+}

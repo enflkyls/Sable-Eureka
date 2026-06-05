@@ -1,0 +1,9 @@
+{
+  "parent": "sable_ships:block/seat",
+  "textures": {
+    "log": "minecraft:block/acacia_log",
+    "log_top": "minecraft:block/acacia_log_top",
+    "planks": "minecraft:block/acacia_planks",
+    "particle": "minecraft:block/acacia_planks"
+  }
+}

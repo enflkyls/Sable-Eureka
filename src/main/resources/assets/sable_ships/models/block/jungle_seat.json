@@ -1,0 +1,9 @@
+{
+  "parent": "sable_ships:block/seat",
+  "textures": {
+    "log": "minecraft:block/jungle_log",
+    "log_top": "minecraft:block/jungle_log_top",
+    "planks": "minecraft:block/jungle_planks",
+    "particle": "minecraft:block/jungle_planks"
+  }
+}

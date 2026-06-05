@@ -1,0 +1,11 @@
+{
+  "parent": "sable_ships:block/ship_helm_wheel",
+  "textures": {
+    "log": "minecraft:block/acacia_log",
+    "log_top": "minecraft:block/acacia_log_top",
+    "planks": "minecraft:block/acacia_planks",
+    "iron_block": "minecraft:block/iron_block",
+    "particle": "minecraft:block/acacia_planks",
+    "gold_block": "minecraft:block/gold_block"
+  }
+}
