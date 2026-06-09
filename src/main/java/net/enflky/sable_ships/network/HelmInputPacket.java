@@ -10,10 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Client → server pilot input. Flags are packed into a single byte to minimize bandwidth.
- */
+
+// Client to server pilot input shits aka flags are packed into a single byte to save some shitty bandwidth
+
 public record HelmInputPacket(
         BlockPos pos,
         boolean forward,
@@ -79,7 +80,7 @@ public record HelmInputPacket(
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

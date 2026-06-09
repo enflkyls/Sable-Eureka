@@ -4,9 +4,9 @@ import net.enflky.sable_ships.SableShips;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-/**
- * Central registration for all helm network payloads on the mod event bus.
- */
+
+ //Central registration for all helm network payloads
+
 public final class ModNetwork {
 
     private ModNetwork() {}
@@ -26,10 +26,6 @@ public final class ModNetwork {
                 HelmInputPacket::handle
         );
 
-        registrar.playToServer(
-                HelmSettingsPacket.TYPE,
-                HelmSettingsPacket.STREAM_CODEC,
-                HelmSettingsPacket::handle
-        );
+
     }
 }

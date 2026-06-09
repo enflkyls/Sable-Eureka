@@ -1,0 +1,6 @@
+{
+  "selector": "sable_ships:seat",
+  "properties": {
+    "sable:mass": 0.25
+  }
+}

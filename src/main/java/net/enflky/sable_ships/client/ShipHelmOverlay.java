@@ -4,6 +4,7 @@ import net.enflky.sable_ships.client.hud.HelmHudPalette;
 import net.enflky.sable_ships.client.hud.HelmHudRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
@@ -37,7 +38,7 @@ public class ShipHelmOverlay {
         int hudY = screenHeight - HUD_HEIGHT - PAD;
 
         HelmHudRenderer.drawOuterFrame(graphics, hudX, hudY, HUD_WIDTH, HUD_HEIGHT);
-        graphics.drawCenteredString(font, "Ship Helm", hudX + HUD_WIDTH / 2, hudY + 5, HelmHudPalette.TITLE);
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.main"), hudX + HUD_WIDTH / 2, hudY + 5, HelmHudPalette.TITLE);
         graphics.fill(hudX + 2, hudY + 15, hudX + HUD_WIDTH - 2, hudY + 16, HelmHudPalette.PANEL_MID);
 
         int blockY = hudY + 18;
@@ -45,12 +46,12 @@ public class ShipHelmOverlay {
         int leftBlockWidth = (HUD_WIDTH / 2) - 6;
 
         HelmHudRenderer.drawBeveledPanel(graphics, hudX + 4, blockY, leftBlockWidth, blockHeight, HelmHudPalette.PANEL);
-        graphics.drawString(font, "SPEED", hudX + 7, blockY + 3, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.speed"), hudX + 7, blockY + 3, HelmHudPalette.LABEL, false);
         graphics.drawString(font, String.format("%.1f m/s", state.speed()), hudX + 7, blockY + 12, HelmHudPalette.VALUE, false);
 
         int rightBlockX = hudX + HUD_WIDTH / 2 + 2;
         HelmHudRenderer.drawBeveledPanel(graphics, rightBlockX, blockY, leftBlockWidth, blockHeight, HelmHudPalette.PANEL);
-        graphics.drawString(font, "TOTAL MASS", rightBlockX + 3, blockY + 3, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.total.mass"), rightBlockX + 3, blockY + 3, HelmHudPalette.LABEL, false);
         graphics.drawString(font, String.format("%.1f kpg", state.mass()), rightBlockX + 3, blockY + 12, HelmHudPalette.VALUE, false);
 
         int headingY = blockY + blockHeight + 2;
@@ -59,7 +60,7 @@ public class ShipHelmOverlay {
         if (yawDegrees < 0) {
             yawDegrees += 360.0;
         }
-        graphics.drawString(font, "HEADING", hudX + 7, headingY + 3, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.heading"), hudX + 7, headingY + 3, HelmHudPalette.LABEL, false);
         graphics.drawString(font, String.format("%.1f° Thrust:%.0f TurnForce:%.0f",
                         yawDegrees, state.thrustForce(), state.turnForce()),
                 hudX + 7, headingY + 12, HelmHudPalette.VALUE, false);
@@ -75,6 +76,6 @@ public class ShipHelmOverlay {
         int compassY = keyGridY + COMPASS_RADIUS + 2;
         HelmHudRenderer.drawCompass(graphics, font, compassX, compassY, COMPASS_RADIUS, state.yaw());
 
-        graphics.drawString(font, "[ESC] Release", hudX + 5, hudY + HUD_HEIGHT - 11, HelmHudPalette.HINT, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.escape"), hudX + 5, hudY + HUD_HEIGHT - 11, HelmHudPalette.HINT, false);
     }
 }

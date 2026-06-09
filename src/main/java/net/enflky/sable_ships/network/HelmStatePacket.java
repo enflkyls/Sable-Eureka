@@ -8,10 +8,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Server → client helm telemetry for HUD and debug screens.
- */
+
+//Server to client helm telemetry for HUD and other shits
+
 public record HelmStatePacket(
         BlockPos pos,
         double velX, double velY, double velZ,
@@ -61,7 +62,7 @@ public record HelmStatePacket(
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 

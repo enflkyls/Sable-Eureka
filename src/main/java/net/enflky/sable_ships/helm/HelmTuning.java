@@ -1,7 +1,6 @@
 package net.enflky.sable_ships.helm;
 
 import net.enflky.sable_ships.SableShips;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 
 //Speed tuning
@@ -10,7 +9,7 @@ public final class HelmTuning {
     public static final double DEFAULT_KP = 300.0;
     public static final double DEFAULT_KD = 12.0;
     public static final double DEFAULT_KI = 3.5;
-    public static final double DEFAULT_THRUST = 50.0;
+    public static final double DEFAULT_THRUST = 10.0;
     public static final double DEFAULT_TURN = 30.0;
 
     public double kp = DEFAULT_KP;
@@ -20,7 +19,7 @@ public final class HelmTuning {
     public double turnForce = DEFAULT_TURN;
     public boolean debug = SableShips.DEBUG;
 
-    public void save(CompoundTag tag, HolderLookup.Provider registries) {
+    public void save(CompoundTag tag) {
         tag.putDouble("kp", kp);
         tag.putDouble("kd", kd);
         tag.putDouble("ki", ki);
@@ -28,7 +27,7 @@ public final class HelmTuning {
         tag.putDouble("turnForce", turnForce);
     }
 
-    public void load(CompoundTag tag, HolderLookup.Provider registries) {
+    public void load(CompoundTag tag) {
         if (tag.contains("kp")) kp = tag.getDouble("kp");
         if (tag.contains("kd")) kd = tag.getDouble("kd");
         if (tag.contains("ki")) ki = tag.getDouble("ki");
@@ -46,9 +45,6 @@ public final class HelmTuning {
 //        this.ki = clamp(newKi, 0, 50);
 //    }
 
-    private static double clamp(double value, double min, double max) {
-        return Math.max(min, Math.min(max, value));
-    }
 
     public int getThrustForceScaled() {
         return (int) (thrustForce * 10);

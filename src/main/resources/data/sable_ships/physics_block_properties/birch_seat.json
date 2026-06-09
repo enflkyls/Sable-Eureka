@@ -1,0 +1,6 @@
+{
+  "selector": "sable_ships:birch_seat",
+  "properties": {
+    "sable:mass": 0.25
+  }
+}

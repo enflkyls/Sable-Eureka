@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Shift + right-click debug/control GUI fed by {@link ClientHelmState}.
@@ -44,7 +45,7 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         int x = (width - GUI_WIDTH) / 2;
         int y = (height - GUI_HEIGHT) / 2;
 
@@ -59,13 +60,12 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
-
-        HelmSnapshot state = ClientHelmState.get();
-        int x = (width - GUI_WIDTH) / 2;
-        int y = (height - GUI_HEIGHT) / 2;
-
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+//        super.render(graphics, mouseX, mouseY, partialTick);
+//
+//        HelmSnapshot state = ClientHelmState.get();
+//        int x = (width - GUI_WIDTH) / 2;
+//        int y = (height - GUI_HEIGHT) / 2;
 //        graphics.drawCenteredString(font, "Ship Helm", x + GUI_WIDTH / 2, y + 6, 0xFFFFFFF);
 //
 //        graphics.drawString(font, "SPEED", x + 7, y + 24, HelmHudPalette.LABEL, false);
@@ -101,19 +101,19 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
         // AbstractContainerScreen we can use  leftPos and topPos form or we can??
         // (leftPos ve topPos, super.init() is finally shit automatic calculated
 
-        graphics.drawCenteredString(font, "Ship Helm", imageWidth / 2, 6, 0xFFFFFF);
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.main"), imageWidth / 2, 6, 0xFFFFFF);
 
-        graphics.drawString(font, "SPEED", 7, 24, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.speed"), 7, 24, HelmHudPalette.LABEL, false);
         graphics.drawString(font, String.format("%.1f m/s", state.speed()), 7, 33, HelmHudPalette.VALUE, false);
 
         int midX = imageWidth / 2 + 5;
-        graphics.drawString(font, "TOTAL MASS", midX, 24, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.total.mass"), midX, 24, HelmHudPalette.LABEL, false);
         graphics.drawString(font, String.format("%.1f kpg", state.mass()), midX, 33, HelmHudPalette.VALUE, false);
 
         double yawDegrees = Math.toDegrees(state.yaw());
         if (yawDegrees < 0) yawDegrees += 360.0;
 
-        graphics.drawString(font, "Status", 7, 52, HelmHudPalette.LABEL, false);
-        graphics.drawString(font, String.format("%.1f° | T:%.0f Tr:%.0f", yawDegrees, state.thrustForce(), state.turnForce()), 7, 61, HelmHudPalette.VALUE, false);
+        graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.status"), 7, 52, HelmHudPalette.LABEL, false);
+        graphics.drawString(font, String.format("%.1f° | Thrust Force:%.0f ", yawDegrees, state.thrustForce()), 7, 61, HelmHudPalette.VALUE, false);
     }
 }

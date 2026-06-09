@@ -6,11 +6,11 @@ import net.enflky.sable_ships.client.input.PilotInputController;
 import net.enflky.sable_ships.content.HelmMenuCooldown;
 import net.enflky.sable_ships.menu.ShipHelmMenu;
 import net.minecraft.client.CameraType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -50,11 +50,11 @@ public class ShipHelmAutoPilotScreen extends AbstractContainerScreen<ShipHelmMen
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         if (minecraft != null && minecraft.player != null) {
             long window = minecraft.getWindow().getWindow();
             double[] cursorX = new double[1];
@@ -72,8 +72,8 @@ public class ShipHelmAutoPilotScreen extends AbstractContainerScreen<ShipHelmMen
         }
 
         int textY = height - 60;
-        graphics.drawCenteredString(font, "You are controlling the ship.", width / 2, textY, 0x55FF55);
-        graphics.drawCenteredString(font, "Right-click helm or ESC to release.", width / 2, textY + 12, 0xAAAAAA);
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.pilotcontrol1"), width / 2, textY, 0x55FF55);
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.pilotcontrol2"), width / 2, textY + 12, 0xAAAAAA);
     }
 
     @Override
@@ -120,6 +120,6 @@ public class ShipHelmAutoPilotScreen extends AbstractContainerScreen<ShipHelmMen
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
     }
 }
