@@ -20,5 +20,5 @@
   "menuGroup.sable_ships_lable.status" : "STATUS",
   "menuGroup.sable_ships_lable.pilotcontrol1" : "You are controlling the ship.",
   "menuGroup.sable_ships_lable.pilotcontrol2" : "\"Right-click to helm or ESC to release the control of the ship.\"",
-  "menuGroup.sable_ships_lable.escape" : "[ESC] or Right-Click to helm for Release"
+  "menuGroup.sable_ships_lable.escape" : "[ESC] release control "
 }

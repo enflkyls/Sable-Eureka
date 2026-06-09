@@ -1,6 +1,19 @@
 {
   "replace": false,
   "values": [
-    "sable_ships:ship_helm"
+    "sable_ships:ship_helm",
+    "sable_ships:oak_ship_helm",
+    "sable_ships:dark_oak_ship_helm",
+    "sable_ships:birch_ship_helm",
+    "sable_ships:jungle_ship_helm",
+    "sable_ships:spruce_ship_helm",
+    "sable_ships:acacia_ship_helm",
+    "sable_ships:seat",
+    "sable_ships:oak_seat",
+    "sable_ships:dark_oak_seat",
+    "sable_ships:birch_seat",
+    "sable_ships:jungle_seat",
+    "sable_ships:spruce_seat",
+    "sable_ships:acacia_seat"
   ]
 }

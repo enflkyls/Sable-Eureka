@@ -47,13 +47,13 @@ public class ShipHelmBlockEntity extends BlockEntity implements BlockEntitySubLe
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tuning.save(tag, registries); //i need to delete compound and make it public not compound driven
+        tuning.save(tag); //i need to delete compound and make it public not compound driven
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        tuning.load(tag, registries);
+        tuning.load(tag);
     }
 
     @Override
