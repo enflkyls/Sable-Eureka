@@ -8,7 +8,6 @@ import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
-//Gyroscope that stabiles the ship
 public final class GyroscopeController {
 
     private static final Vector3d WORLD_UP = new Vector3d(0.0, 1.0, 0.0);
@@ -23,11 +22,11 @@ public final class GyroscopeController {
     private final Vector3d integralLocal = new Vector3d();
     private final Vector3d torqueScratch = new Vector3d();
 
-    public void tick(ServerSubLevel subLevel, RigidBodyHandle handle, HelmTuning tuning,
+    public void tick(ServerSubLevel subLevel, RigidBodyHandle handle, HelmPhysicsSettings settings,
                      double timeStep, double mass) {
-        double strengthImpulse = mass * tuning.kp;
-        double dampingImpulse = mass * tuning.kd;
-        double correctionImpulse = mass * tuning.ki;
+        double strengthImpulse = mass * settings.stabilizationStrength();
+        double dampingImpulse = mass * settings.stabilizationDamping();
+        double correctionImpulse = mass * settings.stabilizationCorrection();
 
         if (strengthImpulse <= 0.0 && dampingImpulse <= 0.0 && correctionImpulse <= 0.0) {
             integralLocal.zero();
@@ -44,12 +43,12 @@ public final class GyroscopeController {
         orientation.transformInverse(errorAxisWorld, errorAxisLocal);
 
         integralLocal.fma(timeStep, errorAxisLocal);
-        // Strength pulls the ship upright; correction slowly removes lingering lean.
+        // Strength pulls the ship upright (finally) and correction slowly removes lingering lean
         restoringImpulseLocal
                 .set(errorAxisLocal).mul(strengthImpulse * timeStep)
                 .fma(correctionImpulse * timeStep, integralLocal);
 
-        // Damping resists wobble by pushing against current angular velocity.
+        // Damping resists wobble by pushing against current angular velocity some guy said what '_'
         dampingImpulseLocal.set(angularVelocityLocal).mul(-dampingImpulse * timeStep);
         dampingImpulseLocal.mul(clampingFactor(angularVelocityLocal, dampingImpulseLocal));
 
@@ -62,7 +61,6 @@ public final class GyroscopeController {
             SableShips.LOGGER.error("[Gyro] totalImpulse:         {}", torqueScratch);
         }
     }
-    //Some shitty maths
     private static double clampingFactor(Vector3dc currentVelocity, Vector3dc expectedVelocityChange) {
         double k = -currentVelocity.dot(expectedVelocityChange);
         double v = currentVelocity.lengthSquared();

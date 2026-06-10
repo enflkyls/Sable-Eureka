@@ -10,9 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-
-//Server to client helm telemetry for HUD and other shits
-
 public record HelmStatePacket(
         BlockPos pos,
         double velX, double velY, double velZ,

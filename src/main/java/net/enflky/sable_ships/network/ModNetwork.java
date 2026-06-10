@@ -5,7 +5,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 
- //Central registration for all helm network payloads
+ //Central registration for all helm network payloads finally no more shitting
 
 public final class ModNetwork {
 

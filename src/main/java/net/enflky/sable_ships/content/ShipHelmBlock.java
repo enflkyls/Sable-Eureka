@@ -17,12 +17,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -58,9 +56,6 @@ public class ShipHelmBlock extends Block implements EntityBlock {
         }
 
         boolean autoPilot = !player.isShiftKeyDown();
-
-        // Mount the player on a seat at the helm position No more NEEDED HAHAAHAHAAHAAHAHAHAHAH
-
 
         serverPlayer.openMenu(new MenuProvider() {
             @Override

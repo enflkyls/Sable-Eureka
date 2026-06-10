@@ -1,5 +1,6 @@
 package net.enflky.sable_ships.helm;
 
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.enflky.sable_ships.network.HelmStatePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -11,13 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Server-authed based pilot state syncretization with throttled proximity checks (Finaly no more f***ckin dissappreas)
- */
 public final class PilotStateManager {
-
-    private static final double TELEMETRY_RADIUS = 64.0;
-    private static final int IDLE_SYNC_INTERVAL_TICKS = 20;
 
     private final Map<UUID, PlayerSync> lastSentByPlayer = new HashMap<>();
     private final ProximityManager proximityManager = new ProximityManager();
@@ -30,7 +25,7 @@ public final class PilotStateManager {
             Vector3d velocity,
             double yaw,
             double mass,
-            HelmTuning tuning
+            HelmPhysicsSettings settings
     ) {
         idleTicks++;
 
@@ -44,7 +39,7 @@ public final class PilotStateManager {
 
         for (ServerPlayer player : level.players()) {
             double distance = proximityManager.distanceTo(player, helmPos);
-            if (distance > TELEMETRY_RADIUS) {
+            if (distance > SableShipsConfig.TELEMETRY_RADIUS.get()) {
                 lastSentByPlayer.remove(player.getUUID());
                 continue;
             }
@@ -56,7 +51,7 @@ public final class PilotStateManager {
                     velocity.x, velocity.y, velocity.z,
                     yaw,
                     mass,
-                    tuning.thrustForce, tuning.turnForce,
+                    settings.thrustForce(), settings.turnForce(),
                     input.forward, input.backward, input.left, input.right,
                     visible,
                     distance
@@ -67,14 +62,14 @@ public final class PilotStateManager {
             }
         }
 
-        if (idleTicks >= IDLE_SYNC_INTERVAL_TICKS) {
+        if (idleTicks >= SableShipsConfig.IDLE_SYNC_INTERVAL_TICKS.get()) {
             idleTicks = 0;
         }
     }
 
     private boolean shouldSync(UUID playerId, HelmStatePacket packet, boolean visible) {
         PlayerSync previous = lastSentByPlayer.get(playerId);
-        boolean due = visible || idleTicks >= IDLE_SYNC_INTERVAL_TICKS;
+        boolean due = visible || idleTicks >= SableShipsConfig.IDLE_SYNC_INTERVAL_TICKS.get();
         if (!due && previous != null && !previous.packet.piloting()) {
             return false;
         }

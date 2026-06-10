@@ -2,10 +2,6 @@ package net.enflky.sable_ships.client;
 
 import net.enflky.sable_ships.network.HelmStatePacket;
 
-
- //Thread-safe (i hope so) holder for the latest client helm state.
- //Render once per frame for a not shit view aka consistent view.
-
 public final class ClientHelmState {
 
     private static volatile HelmSnapshot snapshot = HelmSnapshot.EMPTY;

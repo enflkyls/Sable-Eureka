@@ -23,7 +23,7 @@ public record HelmSnapshot(
 
     public static HelmSnapshot fromPacket(HelmStatePacket packet) {
         double horizontalSpeed = Math.sqrt(packet.velX() * packet.velX() + packet.velZ() * packet.velZ());
-        boolean active = packet.piloting() && packet.distance() <= 10.0; // <--- Maybe i lower it or make it via config
+        boolean active = packet.piloting();
         return new HelmSnapshot(
                 active,
                 packet.pos(),

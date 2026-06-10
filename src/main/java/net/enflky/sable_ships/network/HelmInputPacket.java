@@ -1,6 +1,7 @@
 package net.enflky.sable_ships.network;
 
 import net.enflky.sable_ships.SableShips;
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.enflky.sable_ships.content.ShipHelmBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,9 +13,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-
-// Client to server pilot input shits aka flags are packed into a single byte to save some shitty bandwidth
-
 public record HelmInputPacket(
         BlockPos pos,
         boolean forward,
@@ -23,9 +21,6 @@ public record HelmInputPacket(
         boolean right,
         boolean piloting
 ) implements CustomPacketPayload {
-
-    public static final double MAX_PILOT_DISTANCE = 10.0;
-    private static final double MAX_PILOT_DISTANCE_SQR = MAX_PILOT_DISTANCE * MAX_PILOT_DISTANCE;
 
     public static final Type<HelmInputPacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(SableShips.MOD_ID, "helm_input"));
@@ -63,10 +58,11 @@ public record HelmInputPacket(
                 return;
             }
 
+            double maxPilotDistance = SableShipsConfig.HUD_DISTANCE_BLOCKS.get();
             if (serverPlayer.distanceToSqr(
                     packet.pos.getX() + 0.5,
                     packet.pos.getY() + 0.5,
-                    packet.pos.getZ() + 0.5) > MAX_PILOT_DISTANCE_SQR) {
+                    packet.pos.getZ() + 0.5) > maxPilotDistance * maxPilotDistance) {
                 return;
             }
 

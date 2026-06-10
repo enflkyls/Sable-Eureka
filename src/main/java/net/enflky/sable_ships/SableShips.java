@@ -4,9 +4,6 @@ import net.enflky.sable_ships.client.ClientSetup;
 import net.enflky.sable_ships.config.SableShipsConfig;
 import net.enflky.sable_ships.menu.ModMenuTypes;
 import net.enflky.sable_ships.network.ModNetwork;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -15,8 +12,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
@@ -26,26 +21,13 @@ public class SableShips {
     public static final String MOD_ID = "sable_ships";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    private static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, "sable_ships");
-
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB =
-            CREATIVE_MODE_TABS.register("main", () ->
-                    CreativeModeTab.builder()
-                            .title(Component.translatable("itemGroup.sable_ships"))
-                            .icon(() -> SableShipsBlocks.SHIP_HELMS.get("oak").get().asItem().getDefaultInstance())
-                            .displayItems((parameters, output) -> {
-                                SableShipsBlocks.SHIP_HELMS.values().forEach(h -> output.accept(h.get()));
-                                SableShipsBlocks.SEATS.values().forEach(s -> output.accept(s.get()));
-                                output.accept(SableShipsBlocks.SHIP_ENGINE.get());
-                            })
-                            .build());
-
     public SableShips(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, SableShipsConfig.SPEC);
         SableShipsBlocks.register(modEventBus);
-        ModMenuTypes.MENU_TYPES.register(modEventBus);
-        CREATIVE_MODE_TABS.register(modEventBus);
+        SableShipsItems.register(modEventBus);
+        SableShipsBlockEntityTypes.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
+        SableShipsCreativeTabs.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         modEventBus.addListener(ClientSetup::onRegisterScreens);
         modEventBus.addListener(ModNetwork::registerPayloads);

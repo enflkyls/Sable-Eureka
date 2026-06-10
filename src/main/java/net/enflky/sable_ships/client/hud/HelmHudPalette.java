@@ -1,6 +1,5 @@
 package net.enflky.sable_ships.client.hud;
 
-//Palette idk why is a seperate class iam stupid as fuck
 public final class HelmHudPalette {
 
     public static final int BG = 0xD0C6C6C6;

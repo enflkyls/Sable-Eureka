@@ -12,7 +12,7 @@ import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
 /**
- * Applies linear thrust and yaw torque from pilot input. I will make it with furnace added painnn!!
+ * Applies linear thrust and yaw torque from pilot input.
  * Scratch buffers are reused across ticks to keep the physics loop allocation-free.
  */
 public final class PropulsionController {
@@ -36,15 +36,15 @@ public final class PropulsionController {
             ServerSubLevel subLevel,
             RigidBodyHandle handle,
             Direction blockFacing,
-            HelmTuning tuning,
+            HelmPhysicsSettings settings,
             HelmInputState input,
             double timeStep,
             double mass
     ) {
         Quaterniondc orientation = subLevel.logicalPose().orientation();
 
-        double scaledThrust = Math.max(0.0, mass * tuning.thrustForce * timeStep);
-        double scaledTurn = mass * tuning.turnForce * timeStep; //scales big but fine in bigships
+        double scaledThrust = Math.max(0.0, mass * settings.thrustForce() * timeStep);
+        double scaledTurn = mass * settings.turnForce() * timeStep;
 
         ShipOrientation.computeWorldForward(
                 orientation,
@@ -60,7 +60,7 @@ public final class PropulsionController {
         linearImpulse.zero();
         SurfaceMode surfaceMode = sampleSurfaceMode(subLevel);
         if (input.forward != input.backward && scaledThrust > 0.0 && mass > 0.0) {
-            double speedCap = getSpeedCap(surfaceMode, tuning);
+            double speedCap = getSpeedCap(surfaceMode, settings);
             if (speedCap > 0.0) {
                 double forwardSpeed = handle.getLinearVelocity(linearVelocity).dot(worldForward);
                 double direction = input.forward ? 1.0 : -1.0;
@@ -90,8 +90,8 @@ public final class PropulsionController {
         }
     }
 
-    private double getSpeedCap(SurfaceMode surfaceMode, HelmTuning tuning) {
-        double cap = surfaceMode == SurfaceMode.WATER ? tuning.waterSpeedCap : tuning.landSpeedCap;
+    private double getSpeedCap(SurfaceMode surfaceMode, HelmPhysicsSettings settings) {
+        double cap = surfaceMode == SurfaceMode.WATER ? settings.waterSpeedCap() : settings.landSpeedCap();
         return Math.max(0.0, cap);
     }
 

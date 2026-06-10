@@ -6,10 +6,18 @@ public final class SableShipsConfig {
 
     public static final ModConfigSpec SPEC;
 
+    public static final ModConfigSpec.DoubleValue HELM_BASE_THRUST;
+    public static final ModConfigSpec.DoubleValue HELM_TURN_FORCE;
+    public static final ModConfigSpec.DoubleValue HELM_WATER_SPEED_CAP;
+    public static final ModConfigSpec.DoubleValue HELM_LAND_SPEED_CAP;
     public static final ModConfigSpec.DoubleValue SHIP_ENGINE_THRUST_BONUS;
     public static final ModConfigSpec.DoubleValue SHIP_ENGINE_WATER_SPEED_CAP_BONUS;
     public static final ModConfigSpec.IntValue SHIP_ENGINE_MAX_STACKING_ENGINES;
-    public static final ModConfigSpec.IntValue HUD_DISTANCE;
+    public static final ModConfigSpec.IntValue SHIP_ENGINE_SCAN_INTERVAL_TICKS;
+    public static final ModConfigSpec.IntValue HUD_DISTANCE_BLOCKS;
+    public static final ModConfigSpec.DoubleValue TELEMETRY_RADIUS;
+    public static final ModConfigSpec.IntValue IDLE_SYNC_INTERVAL_TICKS;
+    public static final ModConfigSpec.IntValue PROXIMITY_CHECK_INTERVAL_TICKS;
     public static final ModConfigSpec.DoubleValue GYRO_STRENGTH;
     public static final ModConfigSpec.DoubleValue GYRO_DAMPING;
     public static final ModConfigSpec.DoubleValue GYRO_CORRECTION;
@@ -17,6 +25,21 @@ public final class SableShipsConfig {
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+        builder.push("helm");
+        HELM_BASE_THRUST = builder
+                .comment("Base helm thrust force before mass and physics timestep scaling.")
+                .defineInRange("baseThrust", 10.0, 0.0, 1000.0);
+        HELM_TURN_FORCE = builder
+                .comment("Base helm turn force before mass and physics timestep scaling.")
+                .defineInRange("turnForce", 30.0, 0.0, 1000.0);
+        HELM_WATER_SPEED_CAP = builder
+                .comment("Base forward speed cap while the ship footprint touches water.")
+                .defineInRange("waterSpeedCap", 5.0, 0.0, 1000.0);
+        HELM_LAND_SPEED_CAP = builder
+                .comment("Base forward speed cap when the ship is not detected on water.")
+                .defineInRange("landSpeedCap", 2.5, 0.0, 1000.0);
+        builder.pop();
 
         builder.push("ship_engine");
         SHIP_ENGINE_THRUST_BONUS = builder
@@ -28,9 +51,24 @@ public final class SableShipsConfig {
         SHIP_ENGINE_MAX_STACKING_ENGINES = builder
                 .comment("Maximum powered Ship Engines that can boost one helm.")
                 .defineInRange("maxStackingEngines", 16, 1, 64);
-        HUD_DISTANCE = builder
-                .comment("Hud distance if you have problems with ship helm control dropping for no reason look for it.")
-                .defineInRange("maxHudDistance", 10, 5, 100);
+        SHIP_ENGINE_SCAN_INTERVAL_TICKS = builder
+                .comment("How often a helm scans its SubLevel for powered Ship Engines.")
+                .defineInRange("engineScanIntervalTicks", 20, 1, 200);
+        builder.pop();
+
+        builder.push("sync");
+        HUD_DISTANCE_BLOCKS = builder
+                .comment("Maximum helm distance for the pilot HUD and active control state.")
+                .defineInRange("hudDistanceBlocks", 10, 5, 100);
+        TELEMETRY_RADIUS = builder
+                .comment("Radius around a helm where server telemetry packets may be sent.")
+                .defineInRange("telemetryRadius", 64.0, 5.0, 512.0);
+        IDLE_SYNC_INTERVAL_TICKS = builder
+                .comment("Minimum interval for non-pilot helm telemetry sync.")
+                .defineInRange("idleSyncIntervalTicks", 20, 1, 200);
+        PROXIMITY_CHECK_INTERVAL_TICKS = builder
+                .comment("How often active pilot proximity is rechecked.")
+                .defineInRange("proximityCheckIntervalTicks", 10, 1, 200);
         builder.pop();
 
         builder.push("stabilization");

@@ -4,8 +4,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
 
-
- //Thread-safe pilot shitty input flags written by network handlers and read by the physics tick.
 public final class HelmInputState {
 
     public volatile boolean forward;
@@ -40,7 +38,7 @@ public final class HelmInputState {
         pilotId = null;
     }
 
-    public boolean anyMovementKey() {  //maybe future shitty thing
+    public boolean anyMovementKey() {
         return forward || backward || left || right;
     }
 }

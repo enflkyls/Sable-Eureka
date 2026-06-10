@@ -1,17 +1,12 @@
 package net.enflky.sable_ships.menu;
 
 import net.enflky.sable_ships.content.ShipHelmBlockEntity;
-import net.enflky.sable_ships.helm.HelmTuning;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
 
 public class ShipHelmMenu extends AbstractContainerMenu {
 
@@ -25,15 +20,6 @@ public class ShipHelmMenu extends AbstractContainerMenu {
         this.blockEntity = blockEntity;
         this.blockPos = blockEntity.getBlockPos();
         this.autoPilot = autoPilot;
-
-        HelmTuning tuning = blockEntity.tuning();
-        addScaledSlot(tuning::getThrustForceScaled, tuning::setThrustForceScaled);
-        addScaledSlot(tuning::getTurnForceScaled, tuning::setTurnForceScaled);
-        addScaledSlot(tuning::getKpScaled, tuning::setKpScaled);
-        addScaledSlot(tuning::getKdScaled, tuning::setKdScaled);
-        addScaledSlot(tuning::getKiScaled, tuning::setKiScaled);
-        addScaledSlot(tuning::getWaterSpeedCapScaled, tuning::setWaterSpeedCapScaled);
-        addScaledSlot(tuning::getLandSpeedCapScaled, tuning::setLandSpeedCapScaled);
     }
 
     public ShipHelmMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData) {
@@ -41,25 +27,6 @@ public class ShipHelmMenu extends AbstractContainerMenu {
         this.blockPos = extraData.readBlockPos();
         this.autoPilot = extraData.readBoolean();
         this.blockEntity = null;
-
-
-        for (int i = 0; i < 7; i++) {
-            addDataSlot(DataSlot.standalone());
-        }
-    }
-
-    private void addScaledSlot(IntSupplier getter, IntConsumer setter) {
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return getter.getAsInt();
-            }
-
-            @Override
-            public void set(int value) {
-                setter.accept(value);
-            }
-        });
     }
 
     @Override

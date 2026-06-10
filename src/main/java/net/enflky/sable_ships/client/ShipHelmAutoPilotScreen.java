@@ -13,9 +13,6 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
-
-//piloting mode (the mod that no more shits at the game): captures mouse and keyboard and sends inputs to the server
-
 public class ShipHelmAutoPilotScreen extends AbstractContainerScreen<ShipHelmMenu> {
 
     private final PilotInputController inputController;

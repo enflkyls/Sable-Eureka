@@ -4,10 +4,6 @@ import net.enflky.sable_ships.network.HelmInputPacket;
 import net.minecraft.core.BlockPos;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-
- //Tracks WASD pilot input and sends some shit consolidated packets to the server.
- //Seperated from screen beacuse there is some rendering shit this is easier.
-
 public final class PilotInputController {
 
     private final BlockPos helmPos;

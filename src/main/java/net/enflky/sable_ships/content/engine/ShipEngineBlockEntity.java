@@ -1,6 +1,6 @@
 package net.enflky.sable_ships.content.engine;
 
-import net.enflky.sable_ships.SableShipsBlocks;
+import net.enflky.sable_ships.SableShipsBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -54,7 +54,7 @@ public class ShipEngineBlockEntity extends BlockEntity implements WorldlyContain
     };
 
     public ShipEngineBlockEntity(BlockPos pos, BlockState state) {
-        super(SableShipsBlocks.SHIP_ENGINE_ENTITY.get(), pos, state);
+        super(SableShipsBlockEntityTypes.SHIP_ENGINE.get(), pos, state);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, ShipEngineBlockEntity engine) {

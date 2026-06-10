@@ -89,7 +89,6 @@ public class SeatBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         if (!existing.isEmpty() || player.getVehicle() != null)
             return InteractionResult.PASS;
 
-        // summon at plot for truth hohoh dad joke style comment but fuck it who reads these?? me or some guys scared of malware or some guy madding addon (0% for this shit code) or some guy stealing code also %0 chance beacuse this code base is SHIT
         SeatEntity seat = new SeatEntity(ModEntityTypes.SEAT.get(), level);
         seat.setPos(pos.getX() + 0.5, pos.getY() + 0.45, pos.getZ() + 0.5);
         level.addFreshEntity(seat);
