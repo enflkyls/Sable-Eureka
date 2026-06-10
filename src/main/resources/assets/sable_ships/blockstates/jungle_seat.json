@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "waterlogged=false": {
+      "model": "sable_ships:block/jungle_seat"
+    },
+    "waterlogged=true": {
       "model": "sable_ships:block/jungle_seat"
     }
   }
