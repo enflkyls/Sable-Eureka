@@ -40,7 +40,7 @@ public final class HelmInputState {
         pilotId = null;
     }
 
-    public boolean anyMovementKey() {
+    public boolean anyMovementKey() {  //maybe future shitty thing
         return forward || backward || left || right;
     }
 }

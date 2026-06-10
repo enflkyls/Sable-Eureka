@@ -3,13 +3,12 @@ package net.enflky.sable_ships.helm;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.enflky.sable_ships.SableShips;
-import net.enflky.sable_ships.content.ShipHelmBlock;
 import net.minecraft.core.Direction;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
 /**
- * Applies linear thrust and yaw torque from pilot input.
+ * Applies linear thrust and yaw torque from pilot input. I will make it with furnace added painnn!!
  * Scratch buffers are reused across ticks to keep the physics loop allocation-free.
  */
 public final class PropulsionController {

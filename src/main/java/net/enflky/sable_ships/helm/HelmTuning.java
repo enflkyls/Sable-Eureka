@@ -36,14 +36,15 @@ public final class HelmTuning {
     }
 
 
-     //Clamps client provided values to bug out server-side limits. Its cookeed right now aaaand i should get out the compound based speeds anytime
-//    public void applyFromClient(double thrust, double turn, double newKp, double newKd, double newKi) {
-//        this.thrustForce = clamp(thrust, 0, 500);
-//        this.turnForce = clamp(turn, 0, 500);
-//        this.kp = clamp(newKp, 0, 2000);
-//        this.kd = clamp(newKd, 0, 200);
-//        this.ki = clamp(newKi, 0, 50);
-//    }
+     /*Clamps client provided values to bug out server-side limits. Its cookeed right now aaaand i should get out the compound based speeds anytime
+    *public void applyFromClient(double thrust, double turn, double newKp, double newKd, double newKi) {
+     *   this.thrustForce = clamp(thrust, 0, 500);
+    *    this.turnForce = clamp(turn, 0, 500);
+   *     this.kp = clamp(newKp, 0, 2000);
+  *      this.kd = clamp(newKd, 0, 200);
+ *       this.ki = clamp(newKi, 0, 50);
+   } //Nice shittiy commenting fuck that make it starry
+   */
 
 
     public int getThrustForceScaled() {
