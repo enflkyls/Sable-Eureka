@@ -11,12 +11,16 @@ public final class HelmTuning {
     public static final double DEFAULT_KI = 3.5;
     public static final double DEFAULT_THRUST = 10.0;
     public static final double DEFAULT_TURN = 30.0;
+    public static final double DEFAULT_WATER_SPEED_CAP = 5.0;
+    public static final double DEFAULT_LAND_SPEED_CAP = 2.5;
 
     public double kp = DEFAULT_KP;
     public double kd = DEFAULT_KD;
     public double ki = DEFAULT_KI;
     public double thrustForce = DEFAULT_THRUST;
     public double turnForce = DEFAULT_TURN;
+    public double waterSpeedCap = DEFAULT_WATER_SPEED_CAP;
+    public double landSpeedCap = DEFAULT_LAND_SPEED_CAP;
     public boolean debug = SableShips.DEBUG;
 
     public void save(CompoundTag tag) {
@@ -25,6 +29,8 @@ public final class HelmTuning {
         tag.putDouble("ki", ki);
         tag.putDouble("thrustForce", thrustForce);
         tag.putDouble("turnForce", turnForce);
+        tag.putDouble("waterSpeedCap", waterSpeedCap);
+        tag.putDouble("landSpeedCap", landSpeedCap);
     }
 
     public void load(CompoundTag tag) {
@@ -33,6 +39,8 @@ public final class HelmTuning {
         if (tag.contains("ki")) ki = tag.getDouble("ki");
         if (tag.contains("thrustForce")) thrustForce = tag.getDouble("thrustForce");
         if (tag.contains("turnForce")) turnForce = tag.getDouble("turnForce");
+        if (tag.contains("waterSpeedCap")) waterSpeedCap = tag.getDouble("waterSpeedCap");
+        if (tag.contains("landSpeedCap")) landSpeedCap = tag.getDouble("landSpeedCap");
     }
 
 
@@ -61,6 +69,22 @@ public final class HelmTuning {
 
     public void setTurnForceScaled(int value) {
         turnForce = value / 10.0;
+    }
+
+    public int getWaterSpeedCapScaled() {
+        return (int) (waterSpeedCap * 10);
+    }
+
+    public void setWaterSpeedCapScaled(int value) {
+        waterSpeedCap = value / 10.0;
+    }
+
+    public int getLandSpeedCapScaled() {
+        return (int) (landSpeedCap * 10);
+    }
+
+    public void setLandSpeedCapScaled(int value) {
+        landSpeedCap = value / 10.0;
     }
 
     public int getKpScaled() {

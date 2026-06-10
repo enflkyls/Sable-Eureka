@@ -32,6 +32,8 @@ public class ShipHelmMenu extends AbstractContainerMenu {
         addScaledSlot(tuning::getKpScaled, tuning::setKpScaled);
         addScaledSlot(tuning::getKdScaled, tuning::setKdScaled);
         addScaledSlot(tuning::getKiScaled, tuning::setKiScaled);
+        addScaledSlot(tuning::getWaterSpeedCapScaled, tuning::setWaterSpeedCapScaled);
+        addScaledSlot(tuning::getLandSpeedCapScaled, tuning::setLandSpeedCapScaled);
     }
 
     public ShipHelmMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData) {
@@ -41,7 +43,7 @@ public class ShipHelmMenu extends AbstractContainerMenu {
         this.blockEntity = null;
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 7; i++) {
             addDataSlot(DataSlot.standalone());
         }
     }

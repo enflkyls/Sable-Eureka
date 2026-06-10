@@ -1,9 +1,12 @@
 package net.enflky.sable_ships.helm;
 
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
+import dev.ryanhcode.sable.companion.math.BoundingBox3ic;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.enflky.sable_ships.SableShips;
 import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
@@ -21,6 +24,9 @@ public final class PropulsionController {
     private final Vector3d worldForward = new Vector3d();
     private final Vector3d linearImpulse = new Vector3d();
     private final Vector3d torqueImpulse = new Vector3d();
+    private final Vector3d linearVelocity = new Vector3d();
+    private final Vector3d sampleLocal = new Vector3d();
+    private final Vector3d sampleWorld = new Vector3d();
 
     public void tick(
             ServerSubLevel subLevel,
@@ -33,7 +39,7 @@ public final class PropulsionController {
     ) {
         Quaterniondc orientation = subLevel.logicalPose().orientation();
 
-        double scaledThrust = mass * tuning.thrustForce * timeStep; //need to nerf it for wather mate
+        double scaledThrust = Math.max(0.0, mass * tuning.thrustForce * timeStep);
         double scaledTurn = mass * tuning.turnForce * timeStep; //scales big but fine in bigships
 
         ShipOrientation.computeWorldForward(
@@ -48,8 +54,19 @@ public final class PropulsionController {
         );
 
         linearImpulse.zero();
-        if (input.forward) linearImpulse.fma(scaledThrust, worldForward);
-        if (input.backward) linearImpulse.fma(-scaledThrust, worldForward);
+        if (input.forward != input.backward && scaledThrust > 0.0 && mass > 0.0) {
+            double speedCap = getSpeedCap(subLevel, tuning);
+            if (speedCap > 0.0) {
+                double forwardSpeed = handle.getLinearVelocity(linearVelocity).dot(worldForward);
+                double direction = input.forward ? 1.0 : -1.0;
+                double remainingSpeed = speedCap - (forwardSpeed * direction);
+
+                if (remainingSpeed > 0.0) {
+                    double cappedThrust = Math.min(scaledThrust, mass * remainingSpeed);
+                    linearImpulse.fma(cappedThrust * direction, worldForward);
+                }
+            }
+        }
 
         if (linearImpulse.lengthSquared() > 0.0) {
             handle.applyLinearImpulse(linearImpulse);
@@ -63,8 +80,36 @@ public final class PropulsionController {
         }
 
         if (tuning.debug) {
-            SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={}",
-                    blockFacing, worldForward, worldUp);
+            SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={} water={}",
+                    blockFacing, worldForward, worldUp, isTouchingWater(subLevel));
         }
+    }
+
+    private double getSpeedCap(ServerSubLevel subLevel, HelmTuning tuning) {
+        double cap = isTouchingWater(subLevel) ? tuning.waterSpeedCap : tuning.landSpeedCap;
+        return Math.max(0.0, cap);
+    }
+
+    private boolean isTouchingWater(ServerSubLevel subLevel) {
+        BoundingBox3ic bounds = subLevel.getPlot().getBoundingBox();
+        double minX = bounds.minX() + 0.5;
+        double maxX = bounds.maxX() + 0.5;
+        double minZ = bounds.minZ() + 0.5;
+        double maxZ = bounds.maxZ() + 0.5;
+        double centerX = (minX + maxX) * 0.5;
+        double centerZ = (minZ + maxZ) * 0.5;
+        double sampleY = bounds.minY() + 0.2;
+
+        return isWaterAt(subLevel, centerX, sampleY, centerZ)
+                || isWaterAt(subLevel, minX, sampleY, minZ)
+                || isWaterAt(subLevel, minX, sampleY, maxZ)
+                || isWaterAt(subLevel, maxX, sampleY, minZ)
+                || isWaterAt(subLevel, maxX, sampleY, maxZ);
+    }
+
+    private boolean isWaterAt(ServerSubLevel subLevel, double x, double y, double z) {
+        subLevel.logicalPose().transformPosition(sampleLocal.set(x, y, z), sampleWorld);
+        BlockPos worldPos = BlockPos.containing(sampleWorld.x, sampleWorld.y, sampleWorld.z);
+        return subLevel.getLevel().getFluidState(worldPos).is(FluidTags.WATER);
     }
 }
