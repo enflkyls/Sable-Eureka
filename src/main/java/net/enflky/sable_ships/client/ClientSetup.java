@@ -1,6 +1,7 @@
 package net.enflky.sable_ships.client;
 
 import net.enflky.sable_ships.menu.ModMenuTypes;
+import net.enflky.sable_ships.menu.ShipEngineMenu;
 import net.enflky.sable_ships.menu.ShipHelmMenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,6 +19,9 @@ public final class ClientSetup {
                         menu.autoPilot
                                 ? new ShipHelmAutoPilotScreen(menu, inv, title)
                                 : new ShipHelmScreen(menu, inv, title));
+        event.register(ModMenuTypes.SHIP_ENGINE_MENU.get(),
+                (ShipEngineMenu menu, Inventory inv, Component title) ->
+                        new ShipEngineScreen(menu, inv, title));
     }
 
 }

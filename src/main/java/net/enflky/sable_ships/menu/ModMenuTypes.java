@@ -16,5 +16,9 @@ public final class ModMenuTypes {
             MENU_TYPES.register("ship_helm_menu",
                     () -> IMenuTypeExtension.create(ShipHelmMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<ShipEngineMenu>> SHIP_ENGINE_MENU =
+            MENU_TYPES.register("ship_engine_menu",
+                    () -> IMenuTypeExtension.create(ShipEngineMenu::new));
+
     private ModMenuTypes() {}
 }

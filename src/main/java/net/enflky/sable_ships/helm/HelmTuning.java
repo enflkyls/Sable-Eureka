@@ -1,6 +1,6 @@
 package net.enflky.sable_ships.helm;
 
-import net.enflky.sable_ships.SableShips;
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.minecraft.nbt.CompoundTag;
 
 //Speed tuning
@@ -14,14 +14,19 @@ public final class HelmTuning {
     public static final double DEFAULT_WATER_SPEED_CAP = 5.0;
     public static final double DEFAULT_LAND_SPEED_CAP = 2.5;
 
-    public double kp = DEFAULT_KP;
-    public double kd = DEFAULT_KD;
-    public double ki = DEFAULT_KI;
+    public double kp;
+    public double kd;
+    public double ki;
     public double thrustForce = DEFAULT_THRUST;
     public double turnForce = DEFAULT_TURN;
     public double waterSpeedCap = DEFAULT_WATER_SPEED_CAP;
     public double landSpeedCap = DEFAULT_LAND_SPEED_CAP;
-    public boolean debug = SableShips.DEBUG;
+
+    public HelmTuning() {
+        kp = SableShipsConfig.GYRO_STRENGTH.get();
+        kd = SableShipsConfig.GYRO_DAMPING.get();
+        ki = SableShipsConfig.GYRO_CORRECTION.get();
+    }
 
     public void save(CompoundTag tag) {
         tag.putDouble("kp", kp);

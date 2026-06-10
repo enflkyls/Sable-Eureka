@@ -2,6 +2,8 @@ package net.enflky.sable_ships;
 
 import net.enflky.sable_ships.content.ShipHelmBlock;
 import net.enflky.sable_ships.content.ShipHelmBlockEntity;
+import net.enflky.sable_ships.content.engine.ShipEngineBlock;
+import net.enflky.sable_ships.content.engine.ShipEngineBlockEntity;
 import net.enflky.sable_ships.content.seat.SeatBlock;
 import net.enflky.sable_ships.content.seat.SeatBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -31,8 +33,10 @@ public final class SableShipsBlocks {
     public static final Map<String, DeferredHolder<Block, ShipHelmBlock>> SHIP_HELMS = new HashMap<>();
     public static final Map<String, DeferredHolder<Block, SeatBlock>> SEATS = new HashMap<>();
 
+    public static final DeferredHolder<Block, ShipEngineBlock> SHIP_ENGINE;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ShipHelmBlockEntity>> SHIP_HELM_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SeatBlockEntity>> SEAT_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ShipEngineBlockEntity>> SHIP_ENGINE_ENTITY;
 
     static {
         String[] woodTypes = {"oak", "spruce", "birch", "jungle", "acacia", "dark_oak"};
@@ -53,6 +57,10 @@ public final class SableShipsBlocks {
             SEATS.put(wood, seatBlock);
         }
 
+        SHIP_ENGINE = registerBlock("ship_engine",
+                () -> new ShipEngineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)
+                        .strength(3.5F)));
+
         SHIP_HELM_ENTITY = BLOCK_ENTITIES.register("ship_helm", () -> {
             ShipHelmBlock[] allBlocks = SHIP_HELMS.values()
                     .stream()
@@ -68,6 +76,9 @@ public final class SableShipsBlocks {
                     .toArray(SeatBlock[]::new);
             return BlockEntityType.Builder.of(SeatBlockEntity::new, allSeats).build(null);
         });
+
+        SHIP_ENGINE_ENTITY = BLOCK_ENTITIES.register("ship_engine", () ->
+                BlockEntityType.Builder.of(ShipEngineBlockEntity::new, SHIP_ENGINE.get()).build(null));
     }
 
     private SableShipsBlocks() {}

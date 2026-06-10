@@ -1,5 +1,6 @@
 package net.enflky.sable_ships.helm;
 
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -8,7 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
  */
 public final class ProximityManager {
 
-    public static final double HUD_DISTANCE = 10.0;
+    public static final double HUD_DISTANCE = SableShipsConfig.HUD_DISTANCE.get();
     public static final double HUD_DISTANCE_SQR = HUD_DISTANCE * HUD_DISTANCE;
     private static final int CHECK_INTERVAL_TICKS = 10;
 

@@ -4,6 +4,7 @@ import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.companion.math.BoundingBox3ic;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.enflky.sable_ships.SableShips;
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -15,6 +16,9 @@ import org.joml.Vector3d;
  * Scratch buffers are reused across ticks to keep the physics loop allocation-free.
  */
 public final class PropulsionController {
+
+    private static final double[] FOOTPRINT_SAMPLE_FRACTIONS = {0.0, 0.25, 0.5, 0.75, 1.0};
+    private static final double[] BOTTOM_SAMPLE_OFFSETS = {-0.2, 0.2, 0.8, 1.4};
 
     private final Vector3d worldUp = new Vector3d();
     private final Vector3d defaultForward = new Vector3d();
@@ -54,8 +58,9 @@ public final class PropulsionController {
         );
 
         linearImpulse.zero();
+        SurfaceMode surfaceMode = sampleSurfaceMode(subLevel);
         if (input.forward != input.backward && scaledThrust > 0.0 && mass > 0.0) {
-            double speedCap = getSpeedCap(subLevel, tuning);
+            double speedCap = getSpeedCap(surfaceMode, tuning);
             if (speedCap > 0.0) {
                 double forwardSpeed = handle.getLinearVelocity(linearVelocity).dot(worldForward);
                 double direction = input.forward ? 1.0 : -1.0;
@@ -79,37 +84,58 @@ public final class PropulsionController {
             handle.applyTorqueImpulse(torqueImpulse.set(worldUp).mul(torqueAmount));
         }
 
-        if (tuning.debug) {
-            SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={} water={}",
-                    blockFacing, worldForward, worldUp, isTouchingWater(subLevel));
+        if (SableShipsConfig.DEBUG.get()) {
+            SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={} mode={}",
+                    blockFacing, worldForward, worldUp, surfaceMode.name);
         }
     }
 
-    private double getSpeedCap(ServerSubLevel subLevel, HelmTuning tuning) {
-        double cap = isTouchingWater(subLevel) ? tuning.waterSpeedCap : tuning.landSpeedCap;
+    private double getSpeedCap(SurfaceMode surfaceMode, HelmTuning tuning) {
+        double cap = surfaceMode == SurfaceMode.WATER ? tuning.waterSpeedCap : tuning.landSpeedCap;
         return Math.max(0.0, cap);
     }
 
-    private boolean isTouchingWater(ServerSubLevel subLevel) {
+    private SurfaceMode sampleSurfaceMode(ServerSubLevel subLevel) {
         BoundingBox3ic bounds = subLevel.getPlot().getBoundingBox();
         double minX = bounds.minX() + 0.5;
         double maxX = bounds.maxX() + 0.5;
         double minZ = bounds.minZ() + 0.5;
         double maxZ = bounds.maxZ() + 0.5;
-        double centerX = (minX + maxX) * 0.5;
-        double centerZ = (minZ + maxZ) * 0.5;
-        double sampleY = bounds.minY() + 0.2;
 
-        return isWaterAt(subLevel, centerX, sampleY, centerZ)
-                || isWaterAt(subLevel, minX, sampleY, minZ)
-                || isWaterAt(subLevel, minX, sampleY, maxZ)
-                || isWaterAt(subLevel, maxX, sampleY, minZ)
-                || isWaterAt(subLevel, maxX, sampleY, maxZ);
+        for (double yOffset : BOTTOM_SAMPLE_OFFSETS) {
+            double sampleY = bounds.minY() + yOffset;
+            for (double xFraction : FOOTPRINT_SAMPLE_FRACTIONS) {
+                double sampleX = lerp(minX, maxX, xFraction);
+                for (double zFraction : FOOTPRINT_SAMPLE_FRACTIONS) {
+                    double sampleZ = lerp(minZ, maxZ, zFraction);
+                    if (isWaterAt(subLevel, sampleX, sampleY, sampleZ)) {
+                        return SurfaceMode.WATER;
+                    }
+                }
+            }
+        }
+
+        return SurfaceMode.LAND;
     }
 
     private boolean isWaterAt(ServerSubLevel subLevel, double x, double y, double z) {
         subLevel.logicalPose().transformPosition(sampleLocal.set(x, y, z), sampleWorld);
         BlockPos worldPos = BlockPos.containing(sampleWorld.x, sampleWorld.y, sampleWorld.z);
         return subLevel.getLevel().getFluidState(worldPos).is(FluidTags.WATER);
+    }
+
+    private static double lerp(double min, double max, double fraction) {
+        return min + (max - min) * fraction;
+    }
+
+    private enum SurfaceMode {
+        WATER("water"),
+        LAND("land");
+
+        private final String name;
+
+        SurfaceMode(String name) {
+            this.name = name;
+        }
     }
 }

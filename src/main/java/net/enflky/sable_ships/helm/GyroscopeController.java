@@ -3,6 +3,7 @@ package net.enflky.sable_ships.helm;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.enflky.sable_ships.SableShips;
+import net.enflky.sable_ships.config.SableShipsConfig;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
@@ -24,11 +25,11 @@ public final class GyroscopeController {
 
     public void tick(ServerSubLevel subLevel, RigidBodyHandle handle, HelmTuning tuning,
                      double timeStep, double mass) {
-        double skp = mass * tuning.kp;
-        double skd = mass * tuning.kd;
-        double ski = mass * tuning.ki;
+        double strengthImpulse = mass * tuning.kp;
+        double dampingImpulse = mass * tuning.kd;
+        double correctionImpulse = mass * tuning.ki;
 
-        if (skp <= 0.0 && skd <= 0.0 && ski <= 0.0) {
+        if (strengthImpulse <= 0.0 && dampingImpulse <= 0.0 && correctionImpulse <= 0.0) {
             integralLocal.zero();
             return;
         }
@@ -43,17 +44,19 @@ public final class GyroscopeController {
         orientation.transformInverse(errorAxisWorld, errorAxisLocal);
 
         integralLocal.fma(timeStep, errorAxisLocal);
+        // Strength pulls the ship upright; correction slowly removes lingering lean.
         restoringImpulseLocal
-                .set(errorAxisLocal).mul(skp * timeStep)
-                .fma(ski * timeStep, integralLocal);
+                .set(errorAxisLocal).mul(strengthImpulse * timeStep)
+                .fma(correctionImpulse * timeStep, integralLocal);
 
-        dampingImpulseLocal.set(angularVelocityLocal).mul(-skd * timeStep);
+        // Damping resists wobble by pushing against current angular velocity.
+        dampingImpulseLocal.set(angularVelocityLocal).mul(-dampingImpulse * timeStep);
         dampingImpulseLocal.mul(clampingFactor(angularVelocityLocal, dampingImpulseLocal));
 
         torqueScratch.set(restoringImpulseLocal).add(dampingImpulseLocal);
         handle.applyTorqueImpulse(torqueScratch);
 
-        if (tuning.debug) {
+        if (SableShipsConfig.DEBUG.get()) {
             SableShips.LOGGER.error("[Gyro] errorAxisLocal:       {}", errorAxisLocal);
             SableShips.LOGGER.error("[Gyro] angularVelocityLocal: {}", angularVelocityLocal);
             SableShips.LOGGER.error("[Gyro] totalImpulse:         {}", torqueScratch);
