@@ -14,6 +14,8 @@ public final class SableShipsConfig {
     public static final ModConfigSpec.DoubleValue SHIP_ENGINE_WATER_SPEED_CAP_BONUS;
     public static final ModConfigSpec.IntValue SHIP_ENGINE_MAX_STACKING_ENGINES;
     public static final ModConfigSpec.IntValue SHIP_ENGINE_SCAN_INTERVAL_TICKS;
+    public static final ModConfigSpec.BooleanValue SHIP_ENGINE_FUEL_MULTIPLIER_ENABLED;
+    public static final ModConfigSpec.DoubleValue SHIP_ENGINE_FUEL_DURATION_MULTIPLIER;
     public static final ModConfigSpec.IntValue HUD_DISTANCE_BLOCKS;
     public static final ModConfigSpec.DoubleValue TELEMETRY_RADIUS;
     public static final ModConfigSpec.IntValue IDLE_SYNC_INTERVAL_TICKS;
@@ -29,31 +31,40 @@ public final class SableShipsConfig {
         builder.push("helm");
         HELM_BASE_THRUST = builder
                 .comment("Base helm thrust force before mass and physics timestep scaling.")
-                .defineInRange("baseThrust", 10.0, 0.0, 1000.0);
+                .defineInRange("baseThrust", 10.0, 0.1, 1000.0);
         HELM_TURN_FORCE = builder
                 .comment("Base helm turn force before mass and physics timestep scaling.")
-                .defineInRange("turnForce", 30.0, 0.0, 1000.0);
+                .defineInRange("turnForce", 30.0, 0.1, 1000.0);
         HELM_WATER_SPEED_CAP = builder
                 .comment("Base forward speed cap while the ship footprint touches water.")
-                .defineInRange("waterSpeedCap", 5.0, 0.0, 1000.0);
+                .defineInRange("waterSpeedCap", 5.0, 0.1, 1000.0);
         HELM_LAND_SPEED_CAP = builder
                 .comment("Base forward speed cap when the ship is not detected on water.")
-                .defineInRange("landSpeedCap", 2.5, 0.0, 1000.0);
+                .defineInRange("landSpeedCap", 2.5, 0.1, 1000.0);
         builder.pop();
 
         builder.push("ship_engine");
         SHIP_ENGINE_THRUST_BONUS = builder
                 .comment("Extra helm thrust force added by each powered Ship Engine.")
-                .defineInRange("thrustBonus", 5.0, 0.0, 1000.0);
+                .defineInRange("thrustBonus", 5.0, 0.1, 1000.0);
         SHIP_ENGINE_WATER_SPEED_CAP_BONUS = builder
                 .comment("Extra water speed cap added by each powered Ship Engine.")
-                .defineInRange("waterSpeedCapBonus", 2.0, 0.0, 1000.0);
+                .defineInRange("waterSpeedCapBonus", 2.5, 0.0, 1000.0);
         SHIP_ENGINE_MAX_STACKING_ENGINES = builder
                 .comment("Maximum powered Ship Engines that can boost one helm.")
                 .defineInRange("maxStackingEngines", 16, 1, 64);
         SHIP_ENGINE_SCAN_INTERVAL_TICKS = builder
                 .comment("How often a helm scans its SubLevel for powered Ship Engines.")
                 .defineInRange("engineScanIntervalTicks", 20, 1, 200);
+        SHIP_ENGINE_FUEL_MULTIPLIER_ENABLED = builder
+                .comment("When enabled, Ship Engines consume fuel slower by fuelDurationMultiplier.")
+                .define("fuelDurationMultiplierEnabled", true);
+        SHIP_ENGINE_FUEL_DURATION_MULTIPLIER = builder
+                .comment(
+                        "Ship Engine fuel duration multiplier.",
+                        "1.0 keeps vanilla duration, 2.0 is double of fuel duration and its goes by like this."
+                )
+                .defineInRange("fuelDurationMultiplier", 3.5, 0.1, 64.0);
         builder.pop();
 
         builder.push("sync");
@@ -77,19 +88,19 @@ public final class SableShipsConfig {
                         "Simple stabilization strength. This is PID kp: how strongly the ship tries to stand upright.",
                         "Higher values recover from tilt faster, but too high can make the ship snap or shake."
                 )
-                .defineInRange("stabilizationStrength", 300.0, 0.0, 2000.0);
+                .defineInRange("stabilizationStrength", 300.0, 0.1, 2000.0);
         GYRO_DAMPING = builder
                 .comment(
                         "Simple stabilization damping. This is PID kd: how much wobble and rotation gets damped.",
                         "Higher values calm rocking, but too high can make steering feel heavy."
                 )
-                .defineInRange("stabilizationDamping", 12.0, 0.0, 200.0);
+                .defineInRange("stabilizationDamping", 12.0, 0.1, 200.0);
         GYRO_CORRECTION = builder
                 .comment(
                         "Simple stabilization correction. This is PID ki: slow correction over time; keep it low.",
                         "Small values help remove long-term lean. Large values can build up and cause oscillation."
                 )
-                .defineInRange("stabilizationCorrection", 3.5, 0.0, 50.0);
+                .defineInRange("stabilizationCorrection", 3.5, 0.1, 50.0);
         builder.pop();
 
         builder.push("debug");

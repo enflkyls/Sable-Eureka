@@ -24,23 +24,22 @@ public class ShipEngineScreen extends AbstractContainerScreen<ShipEngineMenu> {
 
     @Override
     protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        int yOffset = 6;
 
         HelmHudRenderer.drawOuterFrame(graphics, leftPos, topPos, GUI_WIDTH, GUI_HEIGHT);
-        HelmHudRenderer.drawBeveledPanel(graphics, leftPos + 68, topPos + 23 + yOffset, 40, 42, HelmHudPalette.PANEL);
+        HelmHudRenderer.drawBeveledPanel(graphics, leftPos + 68, topPos + 23, 40, 42, HelmHudPalette.PANEL);
 
-        graphics.fill(leftPos + 79, topPos + 34 + yOffset, leftPos + 99, topPos + 54 + yOffset, 0xFF0D1117);
-        graphics.renderOutline(leftPos + 79, topPos + 34 + yOffset, 18, 18, 0xFF6B7280);
+        graphics.fill(leftPos + 79, topPos + 34 , leftPos + 99, topPos + 54, 0xFF0D1117);
+        graphics.renderOutline(leftPos + 79, topPos + 34 , 18, 18, 0xFF6B7280);
 
         int flameHeight = menu.getBurnProgressPixels();
         if (flameHeight > 0) {
-            int flameBottom = topPos + 59 + yOffset;
+            int flameBottom = topPos + 59 ;
             int flameTop = flameBottom - flameHeight;
             graphics.fill(leftPos + 82, flameTop, leftPos + 94, flameBottom, 0xFFFF9F1C);
             graphics.fill(leftPos + 85, flameTop + 3, leftPos + 91, flameBottom, 0xFFFFD166);
         }
 
-        graphics.fill(leftPos + 7, topPos + 74 + yOffset, leftPos + GUI_WIDTH - 7, topPos + 75 + yOffset, HelmHudPalette.PANEL_MID);
+        graphics.fill(leftPos + 7, topPos + 74 , leftPos + GUI_WIDTH - 7, topPos + 75, HelmHudPalette.PANEL_MID);
     }
 
     @Override

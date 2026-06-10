@@ -1,6 +1,7 @@
 package net.enflky.sable_ships.content.engine;
 
 import net.enflky.sable_ships.SableShipsBlockEntityTypes;
+import net.enflky.sable_ships.config.SableShipsConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -105,7 +106,13 @@ public class ShipEngineBlockEntity extends BlockEntity implements WorldlyContain
             return 0;
         }
         Map<net.minecraft.world.item.Item, Integer> fuels = AbstractFurnaceBlockEntity.getFuel();
-        return fuels.getOrDefault(stack.getItem(), 0);
+        int baseDuration = fuels.getOrDefault(stack.getItem(), 0);
+        if (baseDuration <= 0 || !SableShipsConfig.SHIP_ENGINE_FUEL_MULTIPLIER_ENABLED.get()) {
+            return baseDuration;
+        }
+
+        double multiplier = SableShipsConfig.SHIP_ENGINE_FUEL_DURATION_MULTIPLIER.get();
+        return Math.max(1, (int) Math.ceil(baseDuration * multiplier));
     }
 
     @Override

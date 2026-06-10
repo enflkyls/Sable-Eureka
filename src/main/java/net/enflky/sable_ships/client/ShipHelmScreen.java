@@ -61,6 +61,6 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
         }
 
         graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.status"), 7, 52, HelmHudPalette.LABEL, false);
-        graphics.drawString(font, String.format("%.1f deg | Thrust: %.0f", yawDegrees, state.thrustForce()), 7, 61, HelmHudPalette.VALUE, false);
+        graphics.drawString(font, String.format("%.1f° | Thrust: %.0f", yawDegrees, state.thrustForce()), 7, 61, HelmHudPalette.VALUE, false);
     }
 }
