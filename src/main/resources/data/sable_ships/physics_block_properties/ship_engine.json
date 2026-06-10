@@ -1,0 +1,6 @@
+{
+  "selector": "sable_ships:ship_engine",
+  "properties": {
+    "sable:mass": 2.0
+  }
+}
