@@ -10,11 +10,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -61,6 +64,14 @@ public class ShipHelmBlock extends Block implements EntityBlock {
         }
 
         boolean autoPilot = !player.isShiftKeyDown();
+        if (autoPilot) {
+            if (helm.input().piloting && player.getUUID().equals(helm.input().pilotId)) {
+                helm.input().clear();
+                return InteractionResult.CONSUME;
+            }
+            helm.input().setFromPlayer(serverPlayer, false, false, false, false, true);
+            return InteractionResult.CONSUME;
+        }
 
         serverPlayer.openMenu(new MenuProvider() {
             @Override
@@ -70,11 +81,41 @@ public class ShipHelmBlock extends Block implements EntityBlock {
 
             @Override
             public AbstractContainerMenu createMenu(int id, Inventory inv, Player p) {
-                return new ShipHelmMenu(id, inv, helm, autoPilot);
+                return new ShipHelmMenu(id, inv, helm, false);
             }
-        }, buf -> buf.writeBlockPos(pos).writeBoolean(autoPilot));
+        }, buf -> buf.writeBlockPos(pos).writeBoolean(false));
 
         return InteractionResult.CONSUME;
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+                                              Player player, InteractionHand hand, BlockHitResult hit) {
+        if (player.isShiftKeyDown()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (level.isClientSide) {
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (!(blockEntity instanceof ShipHelmBlockEntity helm)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        if (HelmMenuCooldown.isOnCooldown(player.getUUID(), level.getGameTime())) {
+            return ItemInteractionResult.CONSUME;
+        }
+
+        if (helm.input().piloting && player.getUUID().equals(helm.input().pilotId)) {
+            helm.input().clear();
+            return ItemInteractionResult.CONSUME;
+        }
+        helm.input().setFromPlayer(serverPlayer, false, false, false, false, true);
+        return ItemInteractionResult.CONSUME;
     }
 
     @Nullable

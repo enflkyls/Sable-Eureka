@@ -77,5 +77,11 @@ public class ShipHelmOverlay {
         HelmHudRenderer.drawCompass(graphics, font, compassX, compassY, COMPASS_RADIUS, state.yaw());
 
         graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.escape"), hudX + 5, hudY + HUD_HEIGHT - 11, HelmHudPalette.HINT, false);
+
+        int promptY = screenHeight - 60;
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.pilotcontrol1"),
+                minecraft.getWindow().getGuiScaledWidth() / 2, promptY, 0x55FF55);
+        graphics.drawCenteredString(font, Component.translatable("menuGroup.sable_ships_lable.pilotcontrol2"),
+                minecraft.getWindow().getGuiScaledWidth() / 2, promptY + 12, 0xAAAAAA);
     }
 }

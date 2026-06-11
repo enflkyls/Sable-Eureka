@@ -16,9 +16,7 @@ public final class ClientSetup {
     public static void onRegisterScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.SHIP_HELM_MENU.get(),
                 (ShipHelmMenu menu, Inventory inv, Component title) ->
-                        menu.autoPilot
-                                ? new ShipHelmAutoPilotScreen(menu, inv, title)
-                                : new ShipHelmScreen(menu, inv, title));
+                        new ShipHelmScreen(menu, inv, title));
         event.register(ModMenuTypes.SHIP_ENGINE_MENU.get(),
                 (ShipEngineMenu menu, Inventory inv, Component title) ->
                         new ShipEngineScreen(menu, inv, title));

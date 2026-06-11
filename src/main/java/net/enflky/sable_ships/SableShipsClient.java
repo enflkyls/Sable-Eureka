@@ -1,6 +1,7 @@
 package net.enflky.sable_ships;
 
 import net.enflky.sable_ships.client.ShipHelmOverlay;
+import net.enflky.sable_ships.client.input.PilotInputEventHandler;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,6 +25,7 @@ public class SableShipsClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         NeoForge.EVENT_BUS.register(new ShipHelmOverlay());
+        NeoForge.EVENT_BUS.register(new PilotInputEventHandler());
         SableShips.LOGGER.info("Ships Working in Sable!");
     }
 

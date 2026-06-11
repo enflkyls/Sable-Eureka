@@ -1,5 +1,6 @@
 package net.enflky.sable_ships.client;
 
+import net.enflky.sable_ships.client.input.ClientPilotSession;
 import net.enflky.sable_ships.network.HelmStatePacket;
 
 public final class ClientHelmState {
@@ -30,6 +31,7 @@ public final class ClientHelmState {
             return;
         }
         snapshot = next;
+        ClientPilotSession.syncFromServer(next);
         revision++;
     }
 
@@ -38,6 +40,7 @@ public final class ClientHelmState {
             return;
         }
         snapshot = HelmSnapshot.EMPTY;
+        ClientPilotSession.stop();
         revision++;
     }
 }
