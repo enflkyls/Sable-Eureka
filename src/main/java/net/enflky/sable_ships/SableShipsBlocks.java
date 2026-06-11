@@ -37,31 +37,42 @@ public final class SableShipsBlocks {
             DeferredHolder<Block, ShipHelmBlock> helmBlock = register(
                     wood + "_ship_helm",
                     () -> new ShipHelmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
-                            .strength(2.5F))
+                            .strength(2.5F)
+                            .noOcclusion()
+                    )
             );
             SHIP_HELMS.put(wood, helmBlock);
             DeferredHolder<Block, SeatBlock> seatBlock = register(
                     wood + "_seat",
                     () -> new SeatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
                             .strength(2.5F)
-                            .noOcclusion())
+                            .noOcclusion()
+                    )
             );
             SEATS.put(wood, seatBlock);
         }
 
         SHIP_ENGINE = register("ship_engine",
                 () -> new ShipEngineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)
-                        .strength(3.5F)));
+                        .strength(3.5F)
+                        .noOcclusion()
+                )
+        );
 
         FLOATER = register("floater",
                 () -> new FloaterBlock(BlockBehaviour.Properties.of()
                         .sound(SoundType.WOOL)
                         .strength(0.5F)
-                        .noOcclusion()));
+                        .noOcclusion()
+                )
+        );
 
         BALLAST = register("ballast",
                 () -> new BallastBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE)
-                        .strength(3.5F)));
+                        .strength(3.5F)
+                        .noOcclusion()
+                )
+        );
     }
 
     private SableShipsBlocks() {}
