@@ -23,6 +23,9 @@ public final class ClientHelmState {
 
     public static void update(HelmStatePacket packet) {
         HelmSnapshot next = HelmSnapshot.fromPacket(packet);
+        if (snapshot.active() && !next.active() && !snapshot.helmPos().equals(next.helmPos())) {
+            return;
+        }
         if (next.equals(snapshot)) {
             return;
         }

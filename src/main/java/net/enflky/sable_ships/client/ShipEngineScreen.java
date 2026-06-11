@@ -14,6 +14,8 @@ public class ShipEngineScreen extends AbstractContainerScreen<ShipEngineMenu> {
 
     private static final int GUI_WIDTH = 176;
     private static final int GUI_HEIGHT = 166;
+    private static final int BURN_PROGRESS_PIXELS = 13;
+    private static final int BURN_BAR_WIDTH = 140;
 
     public ShipEngineScreen(ShipEngineMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -31,12 +33,16 @@ public class ShipEngineScreen extends AbstractContainerScreen<ShipEngineMenu> {
         graphics.fill(leftPos + 79, topPos + 34 , leftPos + 99, topPos + 54, 0xFF0D1117);
         graphics.renderOutline(leftPos + 79, topPos + 34 , 18, 18, 0xFF6B7280);
 
-        int flameHeight = menu.getBurnProgressPixels();
-        if (flameHeight > 0) {
-            int flameBottom = topPos + 59 ;
-            int flameTop = flameBottom - flameHeight;
-            graphics.fill(leftPos + 82, flameTop, leftPos + 94, flameBottom, 0xFFFF9F1C);
-            graphics.fill(leftPos + 85, flameTop + 3, leftPos + 91, flameBottom, 0xFFFFD166);
+        int barX = leftPos + 18;
+        int barY = topPos + 61;
+        graphics.fill(barX, barY, barX + BURN_BAR_WIDTH, barY + 10, 0xFF0D1117);
+        graphics.renderOutline(barX, barY, BURN_BAR_WIDTH, 10, 0xFF6B7280);
+
+        int flameWidth = menu.getBurnProgressPixels() * BURN_BAR_WIDTH / BURN_PROGRESS_PIXELS;
+        if (flameWidth > 0) {
+            int flameRight = barX + flameWidth;
+            graphics.fill(barX + 1, barY + 1, flameRight, barY + 9, 0xFFFF9F1C);
+            graphics.fill(barX + 1, barY + 3, flameRight, barY + 7, 0xFFFFD166);
         }
 
         graphics.fill(leftPos + 7, topPos + 74 , leftPos + GUI_WIDTH - 7, topPos + 75, HelmHudPalette.PANEL_MID);

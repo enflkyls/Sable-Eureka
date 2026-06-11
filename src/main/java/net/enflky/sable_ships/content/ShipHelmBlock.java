@@ -1,8 +1,13 @@
 package net.enflky.sable_ships.content;
 
+import dev.ryanhcode.sable.api.block.BlockEntitySubLevelActor;
+import dev.ryanhcode.sable.companion.SableCompanion;
+import dev.ryanhcode.sable.companion.SubLevelAccess;
+import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.enflky.sable_ships.menu.ShipHelmMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -85,7 +90,37 @@ public class ShipHelmBlock extends Block implements EntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Player player = context.getPlayer();
+
+        if (!level.isClientSide && hasHelmInSubLevel(level, pos)) {
+            if (player != null) {
+                player.displayClientMessage(Component.translatable("message.sable_ships.ship_helm_already_present")
+                        .withStyle(ChatFormatting.RED), true);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.containerMenu.broadcastFullState();
+                    serverPlayer.inventoryMenu.broadcastFullState();
+                }
+            }
+            return null;
+        }
+
         return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    private static boolean hasHelmInSubLevel(Level level, BlockPos pos) {
+        SubLevelAccess subLevel = SableCompanion.INSTANCE.getContaining(level, pos);
+        if (!(subLevel instanceof ServerSubLevel serverSubLevel)) {
+            return false;
+        }
+
+        for (BlockEntitySubLevelActor actor : serverSubLevel.getPlot().getBlockEntityActors()) {
+            if (actor instanceof ShipHelmBlockEntity) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

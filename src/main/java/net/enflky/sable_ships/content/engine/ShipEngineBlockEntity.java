@@ -12,12 +12,10 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Map;
 
 public class ShipEngineBlockEntity extends BlockEntity implements WorldlyContainer {
 
@@ -105,8 +103,7 @@ public class ShipEngineBlockEntity extends BlockEntity implements WorldlyContain
         if (stack.isEmpty()) {
             return 0;
         }
-        Map<net.minecraft.world.item.Item, Integer> fuels = AbstractFurnaceBlockEntity.getFuel();
-        int baseDuration = fuels.getOrDefault(stack.getItem(), 0);
+        int baseDuration = stack.getBurnTime(RecipeType.SMELTING);
         if (baseDuration <= 0 || !SableShipsConfig.SHIP_ENGINE_FUEL_MULTIPLIER_ENABLED.get()) {
             return baseDuration;
         }

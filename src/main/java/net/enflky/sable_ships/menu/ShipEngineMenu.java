@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.item.crafting.RecipeType;
 
 public class ShipEngineMenu extends AbstractContainerMenu {
 
@@ -76,6 +76,7 @@ public class ShipEngineMenu extends AbstractContainerMenu {
         ItemStack result = ItemStack.EMPTY;
         Slot slot = slots.get(index);
         if (!slot.hasItem()) {
+            this.broadcastChanges();
             return result;
         }
 
@@ -84,17 +85,21 @@ public class ShipEngineMenu extends AbstractContainerMenu {
 
         if (index == ENGINE_SLOT) {
             if (!moveItemStackTo(source, 1, slots.size(), true)) {
+                this.broadcastChanges();
                 return ItemStack.EMPTY;
             }
         } else if (isFuel(source)) {
             if (!moveItemStackTo(source, ENGINE_SLOT, ENGINE_SLOT + 1, false)) {
+                this.broadcastChanges();
                 return ItemStack.EMPTY;
             }
         } else if (index < 28) {
             if (!moveItemStackTo(source, 28, 37, false)) {
+                this.broadcastChanges();
                 return ItemStack.EMPTY;
             }
         } else if (index < 37 && !moveItemStackTo(source, 1, 28, false)) {
+            this.broadcastChanges();
             return ItemStack.EMPTY;
         }
 
@@ -104,6 +109,7 @@ public class ShipEngineMenu extends AbstractContainerMenu {
             slot.setChanged();
         }
 
+        this.broadcastChanges();
         return result;
     }
 
@@ -144,7 +150,7 @@ public class ShipEngineMenu extends AbstractContainerMenu {
     }
 
     private static boolean isFuel(ItemStack stack) {
-        return AbstractFurnaceBlockEntity.getFuel().containsKey(stack.getItem());
+        return stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 
     private static class FuelSlot extends Slot {

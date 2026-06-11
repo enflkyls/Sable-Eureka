@@ -49,7 +49,7 @@ public final class SableShipsConfig {
                 .defineInRange("thrustBonus", 5.0, 0.1, 1000.0);
         SHIP_ENGINE_WATER_SPEED_CAP_BONUS = builder
                 .comment("Extra water speed cap added by each powered Ship Engine.")
-                .defineInRange("waterSpeedCapBonus", 2.5, 0.0, 1000.0);
+                .defineInRange("waterSpeedCapBonus", 2.5, 0.1, 1000.0);
         SHIP_ENGINE_MAX_STACKING_ENGINES = builder
                 .comment("Maximum powered Ship Engines that can boost one helm.")
                 .defineInRange("maxStackingEngines", 16, 1, 64);
@@ -57,14 +57,14 @@ public final class SableShipsConfig {
                 .comment("How often a helm scans its SubLevel for powered Ship Engines.")
                 .defineInRange("engineScanIntervalTicks", 20, 1, 200);
         SHIP_ENGINE_FUEL_MULTIPLIER_ENABLED = builder
-                .comment("When enabled, Ship Engines consume fuel slower by fuelDurationMultiplier.")
+                .comment("When enabled, Ship Engines fuel to consumption scales to Fuel Duration Multiplier Scale.")
                 .define("fuelDurationMultiplierEnabled", true);
         SHIP_ENGINE_FUEL_DURATION_MULTIPLIER = builder
                 .comment(
                         "Ship Engine fuel duration multiplier.",
                         "1.0 keeps vanilla duration, 2.0 is double of fuel duration and its goes by like this."
                 )
-                .defineInRange("fuelDurationMultiplier", 3.5, 0.1, 64.0);
+                .defineInRange("fuelDurationMultiplier", 3.5, 1.0, 64.0);
         builder.pop();
 
         builder.push("sync");
