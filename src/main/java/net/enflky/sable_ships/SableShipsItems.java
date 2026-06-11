@@ -18,6 +18,7 @@ public final class SableShipsItems {
                 ITEMS.register(wood + "_seat", () -> new BlockItem(block.get(), new Item.Properties())));
         ITEMS.register("ship_engine", () -> new BlockItem(SableShipsBlocks.SHIP_ENGINE.get(), new Item.Properties()));
         ITEMS.register("floater", () -> new BlockItem(SableShipsBlocks.FLOATER.get(), new Item.Properties()));
+        ITEMS.register("ballast", () -> new BlockItem(SableShipsBlocks.BALLAST.get(), new Item.Properties()));
     }
 
     private SableShipsItems() {

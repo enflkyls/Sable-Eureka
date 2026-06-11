@@ -60,7 +60,7 @@ public class ShipHelmBlockEntity extends BlockEntity implements BlockEntitySubLe
         }
 
         if (SableShipsConfig.DEBUG.get()) {
-            SableShips.LOGGER.info("[ShipHelm] mass={} piloting={} fwd={} bwd={} L={} R={}",
+            SableShips.LOGGER.debug("[ShipHelm] mass={} piloting={} fwd={} bwd={} L={} R={}",
                     lastMass, input.piloting, input.forward, input.backward, input.left, input.right);
         }
     }

@@ -1,6 +1,9 @@
 package net.enflky.sable_ships.config;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.List;
 
 public final class SableShipsConfig {
 
@@ -23,6 +26,8 @@ public final class SableShipsConfig {
     public static final ModConfigSpec.DoubleValue GYRO_STRENGTH;
     public static final ModConfigSpec.DoubleValue GYRO_DAMPING;
     public static final ModConfigSpec.DoubleValue GYRO_CORRECTION;
+    public static final ModConfigSpec.IntValue ASSEMBLY_MAX_BLOCKS;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> ASSEMBLY_EXCLUDED_BLOCKS;
     public static final ModConfigSpec.BooleanValue DEBUG;
 
     static {
@@ -101,6 +106,26 @@ public final class SableShipsConfig {
                         "Small values help remove long-term lean. Large values can build up and cause oscillation."
                 )
                 .defineInRange("stabilizationCorrection", 3.5, 0.1, 50.0);
+        builder.pop();
+
+        builder.push("assembly");
+        ASSEMBLY_MAX_BLOCKS = builder
+                .comment("Maximum number of connected blocks a Ship Helm may assemble.")
+                .defineInRange("maxBlocks", 512, 1, 32768);
+        ASSEMBLY_EXCLUDED_BLOCKS = builder
+                .comment("Block ids that stop connected ship gathering. Fluids and waterlogged blocks are always excluded.")
+                .defineListAllowEmpty("excludedBlocks", List.of(
+                        "minecraft:grass_block",
+                        "minecraft:dirt",
+                        "minecraft:stone",
+                        "minecraft:sand",
+                        "minecraft:gravel",
+                        "minecraft:water",
+                        "minecraft:lava",
+                        "minecraft:kelp",
+                        "minecraft:seagrass"
+                ), () -> "minecraft:air", entry ->
+                        entry instanceof String id && ResourceLocation.tryParse(id) != null);
         builder.pop();
 
         builder.push("debug");

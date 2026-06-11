@@ -1,0 +1,6 @@
+{
+  "selector": "sable_ships:ballast",
+  "properties": {
+    "sable:mass": 10.0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " C ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:birch_log"
+    },
+    "C": {
+      "item": "minecraft:birch_slab"
+    }
+  },
+  "result": {
+    "id": "sable_ships:ballast",
+    "count": 2
+  }
+}

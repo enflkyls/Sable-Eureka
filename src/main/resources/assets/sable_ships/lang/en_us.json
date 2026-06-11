@@ -47,5 +47,8 @@
   "sable_ships.configuration.stabilizationDamping": "Stabilization Damping",
   "sable_ships.configuration.stabilizationCorrection": "Stabilization Correction",
   "sable_ships.configuration.debug": "Debug",
-  "sable_ships.configuration.debugState": "Debug"
+  "sable_ships.configuration.debugState": "Debug",
+  "sable_ships.configuration.assembly" : "Assembly",
+  "sable_ships.configuration.maxBlocks" : "Max Blocks can be Assembled",
+  "sable_ships.configuration.excludedBlocks" : "Assembly Excluded Blocks"
 }

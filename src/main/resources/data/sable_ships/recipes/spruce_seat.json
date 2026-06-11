@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " C ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_log"
+    },
+    "C": {
+      "item": "minecraft:spruce_slab"
+    }
+  },
+  "result": {
+    "id": "sable_ships:ballast",
+    "count": 2
+  }
+}

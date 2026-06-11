@@ -3,11 +3,14 @@ package net.enflky.sable_ships.client;
 import net.enflky.sable_ships.client.hud.HelmHudPalette;
 import net.enflky.sable_ships.client.hud.HelmHudRenderer;
 import net.enflky.sable_ships.menu.ShipHelmMenu;
+import net.enflky.sable_ships.network.HelmAssemblePacket;
+import net.enflky.sable_ships.network.HelmDisassemblePacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
@@ -22,6 +25,24 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        int x = (width - GUI_WIDTH) / 2;
+        int y = (height - GUI_HEIGHT) / 2;
+
+        addRenderableWidget(Button.builder(
+                Component.literal("Assemble The Ship"),
+                btn -> PacketDistributor.sendToServer(new HelmAssemblePacket(menu.blockPos))
+        ).bounds(x + 6, y + 82, GUI_WIDTH - 12, 18).build());
+
+        addRenderableWidget(Button.builder(
+                Component.literal("De-Assemble The Ship"),
+                btn -> PacketDistributor.sendToServer(new HelmDisassemblePacket(menu.blockPos))
+        ).bounds(x + 6, y + 104, GUI_WIDTH - 12, 18).build());
+    }
+
+    @Override
     protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         int x = (width - GUI_WIDTH) / 2;
         int y = (height - GUI_HEIGHT) / 2;
@@ -32,19 +53,6 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
         HelmHudRenderer.drawBeveledPanel(graphics, x + 4, y + 21, (GUI_WIDTH / 2) - 6, 24, HelmHudPalette.PANEL);
         HelmHudRenderer.drawBeveledPanel(graphics, x + GUI_WIDTH / 2 + 2, y + 21, (GUI_WIDTH / 2) - 6, 24, HelmHudPalette.PANEL);
         HelmHudRenderer.drawBeveledPanel(graphics, x + 4, y + 49, GUI_WIDTH - 8, 24, HelmHudPalette.PANEL);
-
-        int buttonWidth = GUI_WIDTH - 12;
-
-
-        addRenderableWidget(Button.builder(
-                Component.literal("Assemble The Ship"),
-                btn -> { /* FUTURUE you screwdriver */ }
-        ).bounds(x + 6, y + 82,  GUI_WIDTH - 12, 18).build());
-
-        addRenderableWidget(Button.builder(
-                Component.literal("De-Assemble The Ship"),
-                btn -> { /* future */ }
-        ).bounds(x + 6, y + 104,  GUI_WIDTH - 12, 18).build());
     }
 
     @Override

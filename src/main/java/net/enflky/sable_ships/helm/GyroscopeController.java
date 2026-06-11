@@ -56,9 +56,9 @@ public final class GyroscopeController {
         handle.applyTorqueImpulse(torqueScratch);
 
         if (SableShipsConfig.DEBUG.get()) {
-            SableShips.LOGGER.error("[Gyro] errorAxisLocal:       {}", errorAxisLocal);
-            SableShips.LOGGER.error("[Gyro] angularVelocityLocal: {}", angularVelocityLocal);
-            SableShips.LOGGER.error("[Gyro] totalImpulse:         {}", torqueScratch);
+            SableShips.LOGGER.debug("[Gyro] errorAxisLocal:       {}", errorAxisLocal);
+            SableShips.LOGGER.debug("[Gyro] angularVelocityLocal: {}", angularVelocityLocal);
+            SableShips.LOGGER.debug("[Gyro] totalImpulse:         {}", torqueScratch);
         }
     }
     private static double clampingFactor(Vector3dc currentVelocity, Vector3dc expectedVelocityChange) {

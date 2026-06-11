@@ -1,12 +1,12 @@
-package net.enflky.sable_ships.content.floater;
+package net.enflky.sable_ships.content;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FloaterBlock extends Block {
+public class BallastBlock extends Block {
 
-    public FloaterBlock(Properties properties) {
+    public BallastBlock(Properties properties) {
         super(properties);
     }
 

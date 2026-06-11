@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " C ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:acacia_log"
+    },
+    "C": {
+      "item": "minecraft:acacia_slab"
+    }
+  },
+  "result": {
+    "id": "sable_ships:ballast",
+    "count": 2
+  }
+}

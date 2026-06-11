@@ -103,7 +103,7 @@ public final class PropulsionController {
         enforceHorizontalSpeedCap(handle, speedCap);
 
         if (SableShipsConfig.DEBUG.get()) {
-            SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={} mode={}",
+            SableShips.LOGGER.debug("[Prop] facing={} worldForward={} worldUp={} mode={}",
                     blockFacing, worldForward, worldUp, surfaceMode.name);
         }
     }

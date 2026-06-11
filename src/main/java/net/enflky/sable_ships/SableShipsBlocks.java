@@ -1,5 +1,6 @@
 package net.enflky.sable_ships;
 
+import net.enflky.sable_ships.content.BallastBlock;
 import net.enflky.sable_ships.content.ShipHelmBlock;
 import net.enflky.sable_ships.content.engine.ShipEngineBlock;
 import net.enflky.sable_ships.content.floater.FloaterBlock;
@@ -27,6 +28,7 @@ public final class SableShipsBlocks {
 
     public static final DeferredHolder<Block, ShipEngineBlock> SHIP_ENGINE;
     public static final DeferredHolder<Block, FloaterBlock> FLOATER;
+    public static final DeferredHolder<Block, BallastBlock> BALLAST;
 
     static {
         String[] woodTypes = {"oak", "spruce", "birch", "jungle", "acacia", "dark_oak"};
@@ -56,6 +58,10 @@ public final class SableShipsBlocks {
                         .sound(SoundType.WOOL)
                         .strength(0.5F)
                         .noOcclusion()));
+
+        BALLAST = register("ballast",
+                () -> new BallastBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE)
+                        .strength(3.5F)));
     }
 
     private SableShipsBlocks() {}

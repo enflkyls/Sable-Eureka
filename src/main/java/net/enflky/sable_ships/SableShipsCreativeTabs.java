@@ -22,6 +22,7 @@ public final class SableShipsCreativeTabs {
                                 SableShipsBlocks.SEATS.values().forEach(block -> output.accept(block.get()));
                                 output.accept(SableShipsBlocks.SHIP_ENGINE.get());
                                 output.accept(SableShipsBlocks.FLOATER.get());
+                                output.accept(SableShipsBlocks.BALLAST.get());
                             })
                             .build());
 

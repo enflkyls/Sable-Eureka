@@ -26,6 +26,16 @@ public final class ModNetwork {
                 HelmInputPacket::handle
         );
 
+        registrar.playToServer(
+                HelmAssemblePacket.TYPE,
+                HelmAssemblePacket.STREAM_CODEC,
+                HelmAssemblePacket::handle
+        );
 
+        registrar.playToServer(
+                HelmDisassemblePacket.TYPE,
+                HelmDisassemblePacket.STREAM_CODEC,
+                HelmDisassemblePacket::handle
+        );
     }
 }
