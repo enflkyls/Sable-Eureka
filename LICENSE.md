@@ -10,7 +10,7 @@ This project contains two distinct parts governed by different licenses:
 
 ---
 
-## ENFLKYLS SOFTWARE LICENSE
+## ENFLKYLS SOFTWARE LICENSE Version S:S
 
 **Copyright (c) 2026 enflkyls. All rights reserved.**
 
