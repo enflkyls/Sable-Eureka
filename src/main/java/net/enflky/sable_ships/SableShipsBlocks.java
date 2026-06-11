@@ -7,6 +7,7 @@ import net.enflky.sable_ships.content.seat.SeatBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -51,8 +52,9 @@ public final class SableShipsBlocks {
                         .strength(3.5F)));
 
         FLOATER = register("floater",
-                () -> new FloaterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
-                        .strength(2.0F)
+                () -> new FloaterBlock(BlockBehaviour.Properties.of()
+                        .sound(SoundType.WOOL)
+                        .strength(0.5F)
                         .noOcclusion()));
     }
 

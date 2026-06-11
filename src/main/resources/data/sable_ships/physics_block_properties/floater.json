@@ -2,7 +2,6 @@
   "selector": "sable_ships:floater",
   "properties": {
     "sable:mass": 0.25,
-    "sable:floating_material": "wood",
-    "sable:floating_scale": 6.0
+    "sable:volume": 18.0
   }
 }

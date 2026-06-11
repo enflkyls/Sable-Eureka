@@ -61,8 +61,8 @@ public class ShipHelmOverlay {
             yawDegrees += 360.0;
         }
         graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.heading"), hudX + 7, headingY + 3, HelmHudPalette.LABEL, false);
-        graphics.drawString(font, String.format("%.1f° Thrust:%.0f TurnForce:%.0f",
-                        yawDegrees, state.thrustForce(), state.turnForce()),
+        graphics.drawString(font, String.format("%.1f°  |  Thrust:%.0f",//TurnForce:%.0f
+                        yawDegrees, state.thrustForce()), //state.turnForce()),
                 hudX + 7, headingY + 12, HelmHudPalette.VALUE, false);
 
         int separatorY = headingY + blockHeight + 4;

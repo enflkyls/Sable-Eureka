@@ -37,22 +37,22 @@ public final class SableShipsConfig {
                 .defineInRange("turnForce", 30.0, 0.1, 1000.0);
         HELM_WATER_SPEED_CAP = builder
                 .comment("Base forward speed cap while the ship footprint touches water.")
-                .defineInRange("waterSpeedCap", 5.0, 0.1, 1000.0);
+                .defineInRange("waterSpeedCap", 5.5, 0.1, 1000.0);
         HELM_LAND_SPEED_CAP = builder
                 .comment("Base forward speed cap when the ship is not detected on water.")
-                .defineInRange("landSpeedCap", 2.5, 0.1, 1000.0);
+                .defineInRange("landSpeedCap", 3.0, 0.1, 1000.0);
         builder.pop();
 
         builder.push("ship_engine");
         SHIP_ENGINE_THRUST_BONUS = builder
                 .comment("Extra helm thrust force added by each powered Ship Engine.")
-                .defineInRange("thrustBonus", 5.0, 0.1, 1000.0);
+                .defineInRange("thrustBonus", 6.0, 0.1, 1000.0);
         SHIP_ENGINE_WATER_SPEED_CAP_BONUS = builder
                 .comment("Extra water speed cap added by each powered Ship Engine.")
                 .defineInRange("waterSpeedCapBonus", 2.5, 0.1, 1000.0);
         SHIP_ENGINE_MAX_STACKING_ENGINES = builder
                 .comment("Maximum powered Ship Engines that can boost one helm.")
-                .defineInRange("maxStackingEngines", 16, 1, 64);
+                .defineInRange("maxStackingEngines", 32, 1, 64);
         SHIP_ENGINE_SCAN_INTERVAL_TICKS = builder
                 .comment("How often a helm scans its SubLevel for powered Ship Engines.")
                 .defineInRange("engineScanIntervalTicks", 20, 1, 200);

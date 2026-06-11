@@ -4,6 +4,7 @@ import net.enflky.sable_ships.client.hud.HelmHudPalette;
 import net.enflky.sable_ships.client.hud.HelmHudRenderer;
 import net.enflky.sable_ships.menu.ShipHelmMenu;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
 
     private static final int GUI_WIDTH = 164;
-    private static final int GUI_HEIGHT = 82;
+    private static final int GUI_HEIGHT = 126; //82
 
     public ShipHelmScreen(ShipHelmMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -31,6 +32,19 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
         HelmHudRenderer.drawBeveledPanel(graphics, x + 4, y + 21, (GUI_WIDTH / 2) - 6, 24, HelmHudPalette.PANEL);
         HelmHudRenderer.drawBeveledPanel(graphics, x + GUI_WIDTH / 2 + 2, y + 21, (GUI_WIDTH / 2) - 6, 24, HelmHudPalette.PANEL);
         HelmHudRenderer.drawBeveledPanel(graphics, x + 4, y + 49, GUI_WIDTH - 8, 24, HelmHudPalette.PANEL);
+
+        int buttonWidth = GUI_WIDTH - 12;
+
+
+        addRenderableWidget(Button.builder(
+                Component.literal("Assemble The Ship"),
+                btn -> { /* FUTURUE you screwdriver */ }
+        ).bounds(x + 6, y + 82,  GUI_WIDTH - 12, 18).build());
+
+        addRenderableWidget(Button.builder(
+                Component.literal("De-Assemble The Ship"),
+                btn -> { /* future */ }
+        ).bounds(x + 6, y + 104,  GUI_WIDTH - 12, 18).build());
     }
 
     @Override
@@ -61,6 +75,8 @@ public class ShipHelmScreen extends AbstractContainerScreen<ShipHelmMenu> {
         }
 
         graphics.drawString(font, Component.translatable("menuGroup.sable_ships_lable.status"), 7, 52, HelmHudPalette.LABEL, false);
-        graphics.drawString(font, String.format("%.1f° | Thrust: %.0f", yawDegrees, state.thrustForce()), 7, 61, HelmHudPalette.VALUE, false);
+        graphics.drawString(font, String.format("%.1f° | Thrust: %.0f", // | Assemble: f
+                yawDegrees, state.thrustForce()),
+                7, 61, HelmHudPalette.VALUE, false);
     }
 }

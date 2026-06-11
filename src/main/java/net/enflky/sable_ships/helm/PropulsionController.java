@@ -17,6 +17,7 @@ import org.joml.Vector3d;
  */
 public final class PropulsionController {
 
+    private static final Vector3d GLOBAL_UP = new Vector3d(0.0, 1.0, 0.0);
     private static final double[] FOOTPRINT_SAMPLE_FRACTIONS = {0.0, 0.25, 0.5, 0.75, 1.0};
     private static final double[] BOTTOM_SAMPLE_OFFSETS = {-0.2, 0.2, 0.8, 1.4};
 
@@ -29,6 +30,11 @@ public final class PropulsionController {
     private final Vector3d linearImpulse = new Vector3d();
     private final Vector3d torqueImpulse = new Vector3d();
     private final Vector3d linearVelocity = new Vector3d();
+    private final Vector3d horizontalVelocity = new Vector3d();
+    private final Vector3d thrustDirection = new Vector3d();
+    private final Vector3d horizontalThrustDirection = new Vector3d();
+    private final Vector3d velocityCorrection = new Vector3d();
+    private final Vector3d zeroAngularVelocity = new Vector3d();
     private final Vector3d sampleLocal = new Vector3d();
     private final Vector3d sampleWorld = new Vector3d();
 
@@ -59,16 +65,26 @@ public final class PropulsionController {
 
         linearImpulse.zero();
         SurfaceMode surfaceMode = sampleSurfaceMode(subLevel);
-        if (input.forward != input.backward && scaledThrust > 0.0 && mass > 0.0) {
-            double speedCap = getSpeedCap(surfaceMode, settings);
-            if (speedCap > 0.0) {
-                double forwardSpeed = handle.getLinearVelocity(linearVelocity).dot(worldForward);
-                double direction = input.forward ? 1.0 : -1.0;
-                double remainingSpeed = speedCap - (forwardSpeed * direction);
+        double speedCap = getSpeedCap(surfaceMode, settings);
+        enforceHorizontalSpeedCap(handle, speedCap);
 
-                if (remainingSpeed > 0.0) {
-                    double cappedThrust = Math.min(scaledThrust, mass * remainingSpeed);
-                    linearImpulse.fma(cappedThrust * direction, worldForward);
+        if (input.forward != input.backward && scaledThrust > 0.0 && mass > 0.0) {
+            if (speedCap > 0.0) {
+                double direction = input.forward ? 1.0 : -1.0;
+                handle.getLinearVelocity(linearVelocity);
+                horizontalVelocity(linearVelocity, GLOBAL_UP, horizontalVelocity);
+                thrustDirection.set(worldForward).mul(direction).normalize();
+                horizontalVelocity(thrustDirection, GLOBAL_UP, horizontalThrustDirection);
+
+                double allowedThrust = computeAllowedThrustImpulse(
+                        horizontalVelocity,
+                        horizontalThrustDirection,
+                        speedCap,
+                        scaledThrust,
+                        mass
+                );
+                if (allowedThrust > 0.0) {
+                    linearImpulse.fma(allowedThrust, thrustDirection);
                 }
             }
         }
@@ -84,6 +100,8 @@ public final class PropulsionController {
             handle.applyTorqueImpulse(torqueImpulse.set(worldUp).mul(torqueAmount));
         }
 
+        enforceHorizontalSpeedCap(handle, speedCap);
+
         if (SableShipsConfig.DEBUG.get()) {
             SableShips.LOGGER.info("[Prop] facing={} worldForward={} worldUp={} mode={}",
                     blockFacing, worldForward, worldUp, surfaceMode.name);
@@ -93,6 +111,72 @@ public final class PropulsionController {
     private double getSpeedCap(SurfaceMode surfaceMode, HelmPhysicsSettings settings) {
         double cap = surfaceMode == SurfaceMode.WATER ? settings.waterSpeedCap() : settings.landSpeedCap();
         return Math.max(0.0, cap);
+    }
+
+    private void horizontalVelocity(Vector3d velocity, Vector3d up, Vector3d dest) {
+        dest.set(velocity).fma(-velocity.dot(up), up);
+    }
+
+    private void enforceHorizontalSpeedCap(RigidBodyHandle handle, double speedCap) {
+        if (speedCap <= 0.0) {
+            return;
+        }
+
+        handle.getLinearVelocity(linearVelocity);
+        double horizontalSpeedSquared = linearVelocity.x * linearVelocity.x + linearVelocity.z * linearVelocity.z;
+        double speedCapSquared = speedCap * speedCap;
+        if (horizontalSpeedSquared <= speedCapSquared) {
+            return;
+        }
+
+        double horizontalSpeed = Math.sqrt(horizontalSpeedSquared);
+        double scale = speedCap / horizontalSpeed;
+        velocityCorrection.set(
+                linearVelocity.x * scale - linearVelocity.x,
+                0.0,
+                linearVelocity.z * scale - linearVelocity.z
+        );
+        handle.addLinearAndAngularVelocity(velocityCorrection, zeroAngularVelocity.zero());
+    }
+
+    private double computeAllowedThrustImpulse(
+            Vector3d currentHorizontalVelocity,
+            Vector3d requestedDirection,
+            double speedCap,
+            double requestedImpulse,
+            double mass
+    ) {
+        double requestedDirectionLengthSquared = requestedDirection.lengthSquared();
+        if (requestedDirectionLengthSquared <= 1.0E-12 || speedCap <= 0.0 || requestedImpulse <= 0.0 || mass <= 0.0) {
+            return 0.0;
+        }
+
+        double invDirectionLength = 1.0 / Math.sqrt(requestedDirectionLengthSquared);
+        double speedAlongThrust = currentHorizontalVelocity.dot(requestedDirection) * invDirectionLength;
+        double horizontalSpeedSquared = currentHorizontalVelocity.lengthSquared();
+        double speedCapSquared = speedCap * speedCap;
+
+        if (horizontalSpeedSquared >= speedCapSquared) {
+            if (speedAlongThrust >= 0.0) {
+                return 0.0;
+            }
+
+            double brakingImpulse = mass * -speedAlongThrust;
+            return Math.min(requestedImpulse, brakingImpulse);
+        }
+
+        double perpendicularSpeedSquared = horizontalSpeedSquared - speedAlongThrust * speedAlongThrust;
+        double allowedDeltaSpeedSquared = speedCapSquared - perpendicularSpeedSquared;
+        if (allowedDeltaSpeedSquared <= 0.0) {
+            return 0.0;
+        }
+
+        double allowedDeltaSpeed = Math.sqrt(allowedDeltaSpeedSquared) - speedAlongThrust;
+        if (allowedDeltaSpeed <= 0.0) {
+            return 0.0;
+        }
+
+        return Math.min(requestedImpulse, mass * allowedDeltaSpeed);
     }
 
     private SurfaceMode sampleSurfaceMode(ServerSubLevel subLevel) {
