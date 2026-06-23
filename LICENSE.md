@@ -5,8 +5,8 @@
 
 This project contains two distinct parts governed by different licenses:
 
-1. **Core Software:** All files, source code, images, and documentation (excluding the `src/main/resources` directory and its subdirectories) are governed by the **Enflkyls Software License** defined below.
-2. **Resources:** Files located within the `src/main/resources` directory and its subdirectories are governed by the **Apache License, Version 2.0**.
+1. **Core Software:** All files, source code, images, and documentation (excluding the `src/main/resources` directory and its subdirectories) are governed by the **Enflkyls Software License Version S:S** defined below.
+2. **Resources:** Files located within the `src/main/resources` directory and its subdirectories are governed by the **Apache License, Version 2.0** and these assets derived from **Eureka! Ships! for Valkyrien Skies** (as known as Valkyrien Skies: Eureka) (which can be found here https://github.com/ValkyrienSkies/Eureka).
 
 ---
 
@@ -14,41 +14,38 @@ This project contains two distinct parts governed by different licenses:
 
 **Copyright (c) 2026 enflkyls. All rights reserved.**
 
-### 1. OWNERSHIP AND RESTRICTIONS
+### 1. ALL RIGHTS RESERVED & PROHIBITED USES
 
-All titles, ownership rights, and intellectual property rights in and to this software (the "Software"), including but not limited to any source code, images, and documentation, are owned by **enflkyls**.
-
-### 2. PERMISSIONS & ADD-ON OWNERSHIP
-
-You are permitted to create and suggest add-ons, patches, or extensions for this Software, provided that:
-
-* **Credit:** You must provide clear and prominent credit to **enflkyls** as the original author of the core software.
-* **Ownership:** All add-ons, patches, and extensions created for this Software are the intellectual property of **enflkyls**. By creating an add-on, you acknowledge that you have no ownership rights over it and grant full rights to **enflkyls**.
-* **Removal:** **enflkyls** reserves the absolute right to demand the immediate removal, deletion, or cessation of any add-on, patch, or extension at any time, for any reason.
-* **No Core Modification:** Your add-ons must remain separable and must not modify, decompile, or alter the core source code of the Software.
-
-### 3. PROHIBITED USES
+Except as expressly granted in Section 2, all rights, title, and interest in and to the core software (including source code, compiled binaries, images, and documentation outside of the `src/main/resources` directory) are exclusively owned by **enflkyls**.
 
 You are strictly prohibited from:
 
-* **Copying:** You may not copy or reproduce the Software or any part of its source code.
-* **Modification:** You may not modify, adapt, translate, or create derivative works based upon the Software.
-* **Redistribution:** You may not redistribute, publish, sell, rent, lease, sublicense, or otherwise transfer the Software or any portion thereof to any third party without permission.
-* **Decompilation:** You may not reverse engineer, decompile, or disassemble the Software.
+* **Copying:** Copying or reproducing the Software or any part of its source code.
+* **Modification:** Modifying, adapting, translating, or creating derivative works based upon the Software.
+* **Redistribution:** Redistributing, publishing, selling, renting, leasing, sublicensing, or otherwise transferring the Software or any portion thereof to any third party without permission.
 
-### 4. NO WARRANTY
+### 2. EXCEPTION: PERMISSION FOR ADD-ONS
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE.
+Notwithstanding the strictly "All Rights Reserved" status of the core software, you are granted limited permission to create, publish, and suggest add-ons, patches, or extensions ("Add-ons") for this Software, strictly under the following conditions:
 
-### 5. TERMINATION
+* **Credit:** You must provide clear and prominent credit to **enflkyls** as the original author of the core software.
+* **Ownership of Add-ons:** All Add-ons created for this Software become the intellectual property of **enflkyls**. By creating an Add-on, you grant full ownership rights to **enflkyls** and acknowledge you hold no rights over it.
+* **Removal Right:** **enflkyls** reserves the absolute right to demand the immediate removal, deletion, or cessation of distribution of any Add-on at any time, for any reason.
 
-Any violation of these terms will result in the immediate termination of your right to use the Software and may lead to legal action for copyright infringement.
+### 3. NO WARRANTY
+
+**THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE.**
+
+### 4. TERMINATION
+
+Any violation of these terms will result in the immediate termination of your right to use the Software and its Add-on ecosystem, and may lead to legal action for copyright infringement.
 
 ---
 
 ## APACHE LICENSE, VERSION 2.0
 
 *(Applies only to files within `src/main/resources` and its subdirectories)*
+*(`src/main/resources` and its subdirectories are derived from *Eureka! Ships! for Valkyrien Skies* (as known as Valkyrien Skies: Eureka) (which can be found here https://github.com/ValkyrienSkies/Eureka)*
 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
